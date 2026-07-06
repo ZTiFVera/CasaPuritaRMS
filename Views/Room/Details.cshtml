@@ -1,0 +1,35 @@
+@model CasaPuritaRMS.Models.Room
+
+@{
+    ViewData["Title"] = "Room Details";
+}
+
+<div class="card-panel" style="max-width:600px;">
+    <h6 class="mb-3">Room Details</h6>
+
+    <dl class="row">
+        <dt class="col-sm-4 text-muted small">Room Number</dt>
+        <dd class="col-sm-8">@Model.Room_Number</dd>
+
+        <dt class="col-sm-4 text-muted small">Floor</dt>
+        <dd class="col-sm-8">@Model.Floor</dd>
+
+        <dt class="col-sm-4 text-muted small">Capacity</dt>
+        <dd class="col-sm-8">@Model.Capacity</dd>
+
+        <dt class="col-sm-4 text-muted small">Status</dt>
+        <dd class="col-sm-8">
+            @if (Model.Status == "Available")
+            {
+                <span class="badge-available">Available</span>
+            }
+            else
+            {
+                <span class="badge-occupied">Occupied</span>
+            }
+        </dd>
+    </dl>
+
+    <a asp-action="Edit" asp-route-id="@Model.Room_ID" class="btn btn-primary btn-sm">Edit</a>
+    <a asp-action="Index" class="btn btn-outline-secondary btn-sm">Back to List</a>
+</div>

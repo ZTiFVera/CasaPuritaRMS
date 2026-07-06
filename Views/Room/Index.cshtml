@@ -1,0 +1,64 @@
+@model IEnumerable<CasaPuritaRMS.Models.Room>
+
+@{
+    ViewData["Title"] = "Rooms";
+}
+
+<div class="card-panel">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h6 class="m-0">Room List</h6>
+        <a asp-action="Create" class="btn btn-sm btn-primary">
+            <i class="bi bi-plus-lg"></i> Add Room
+        </a>
+    </div>
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success py-2">@TempData["Success"]</div>
+    }
+
+    <table class="table align-middle">
+        <thead>
+            <tr>
+                <th>Room Number</th>
+                <th>Floor</th>
+                <th>Capacity</th>
+                <th>Status</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var room in Model)
+            {
+                <tr>
+                    <td>@room.Room_Number</td>
+                    <td>@room.Floor</td>
+                    <td>@room.Capacity</td>
+                    <td>
+                        @if (room.Status == "Available")
+                        {
+                            <span class="badge-available">Available</span>
+                        }
+                        else
+                        {
+                            <span class="badge-occupied">Occupied</span>
+                        }
+                    </td>
+                    <td class="text-end">
+                        <div class="btn-group btn-group-sm" role="group">
+                            <a asp-action="Edit" asp-route-id="@room.Room_ID" class="btn btn-outline-secondary" title="Edit">
+                                <i class="bi bi-pencil"></i>
+                            </a>
+                            <a asp-action="Details" asp-route-id="@room.Room_ID" class="btn btn-outline-secondary" title="View">
+                                <i class="bi bi-eye"></i>
+                            </a>
+                            <a asp-action="Delete" asp-route-id="@room.Room_ID" class="btn btn-outline-danger" title="Delete">
+                                <i class="bi bi-trash"></i>
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

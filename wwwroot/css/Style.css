@@ -1,0 +1,140 @@
+﻿* {
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #f4f6f9;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    margin: 0;
+}
+
+/* SIDEBAR */
+.sidebar {
+    width: 240px;
+    height: 100vh;
+    background: #ffffff;
+    border-right: 1px solid #e5e7eb;
+    position: sticky;
+    top: 0;
+}
+
+.sidebar-logo {
+    padding: 20px;
+    font-size: 18px;
+    font-weight: 600;
+    color: #1e3a5f;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.sidebar-menu {
+    list-style: none;
+    padding: 10px 0;
+    margin: 0;
+}
+
+    .sidebar-menu li a {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 12px 20px;
+        color: #555;
+        text-decoration: none;
+        font-size: 14px;
+        transition: 0.2s;
+    }
+
+        .sidebar-menu li a:hover {
+            background: #f0f4fa;
+            color: #1e3a5f;
+        }
+
+        .sidebar-menu li a.active {
+            background: #1e3a5f;
+            color: #ffffff;
+            border-radius: 0 20px 20px 0;
+        }
+
+/* TOPBAR */
+.topbar {
+    background: #ffffff;
+    padding: 15px 25px;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.user-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: #1e3a5f;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.card-panel {
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    padding: 20px;
+}
+
+.table thead th {
+    font-size: 12px;
+    text-transform: uppercase;
+    color: #888;
+    border-bottom: 2px solid #eee;
+}
+
+.badge-available {
+    background: #e7f7ee;
+    color: #1a7f4b;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+}
+
+.badge-occupied {
+    background: #fdecea;
+    color: #c0392b;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+}
+
+
+
+
+
+
+
+
+
+.btn-group-sm .btn {
+    padding: 4px 10px;
+    font-size: 13px;
+}
+
+.btn-outline-secondary {
+    border-color: #dcdfe4;
+    color: #555;
+}
+
+    .btn-outline-secondary:hover {
+        background-color: #f0f4fa;
+        border-color: #1e3a5f;
+        color: #1e3a5f;
+    }
+
+.btn-outline-danger {
+    border-color: #f5c6c6;
+    color: #c0392b;
+}
+
+    .btn-outline-danger:hover {
+        background-color: #fdecea;
+        border-color: #c0392b;
+        color: #c0392b;
+    }

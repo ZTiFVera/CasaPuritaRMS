@@ -1,0 +1,43 @@
+@model CasaPuritaRMS.Models.Room
+
+@{
+    ViewData["Title"] = "Edit Room";
+}
+
+<div class="card-panel" style="max-width:500px;">
+    <h6 class="mb-3">Edit Room</h6>
+
+    <form asp-action="Edit" method="post">
+        <input type="hidden" asp-for="Room_ID" />
+        <div asp-validation-summary="ModelOnly" class="text-danger mb-2"></div>
+
+        <div class="mb-3">
+            <label asp-for="Room_Number" class="form-label small text-muted"></label>
+            <input asp-for="Room_Number" class="form-control" />
+            <span asp-validation-for="Room_Number" class="text-danger small"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Floor" class="form-label small text-muted"></label>
+            <input asp-for="Floor" class="form-control" />
+            <span asp-validation-for="Floor" class="text-danger small"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Capacity" class="form-label small text-muted"></label>
+            <input asp-for="Capacity" class="form-control" />
+            <span asp-validation-for="Capacity" class="text-danger small"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Status" class="form-label small text-muted"></label>
+            <select asp-for="Status" class="form-select">
+                <option value="Available">Available</option>
+                <option value="Occupied">Occupied</option>
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Update Room</button>
+        <a asp-action="Index" class="btn btn-outline-secondary">Cancel</a>
+    </form>
+</div>

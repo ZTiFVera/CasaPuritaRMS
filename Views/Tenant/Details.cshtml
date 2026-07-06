@@ -1,0 +1,44 @@
+@model CasaPuritaRMS.Models.Tenant
+
+@{
+    ViewData["Title"] = "Tenant Details";
+}
+
+<div class="card-panel" style="max-width:600px;">
+    <h6 class="mb-3">Tenant Details</h6>
+
+    <dl class="row">
+        <dt class="col-sm-4 text-muted small">First Name</dt>
+        <dd class="col-sm-8">@Model.First_Name</dd>
+
+        <dt class="col-sm-4 text-muted small">Last Name</dt>
+        <dd class="col-sm-8">@Model.Last_Name</dd>
+
+        <dt class="col-sm-4 text-muted small">Email</dt>
+        <dd class="col-sm-8">@Model.Email</dd>
+
+        <dt class="col-sm-4 text-muted small">Contact Number</dt>
+        <dd class="col-sm-8">@Model.Contact_Number</dd>
+
+        <dt class="col-sm-4 text-muted small">Emergency Contact Name</dt>
+        <dd class="col-sm-8">@Model.Emergency_Contact_Name</dd>
+
+        <dt class="col-sm-4 text-muted small">Emergency Contact Number</dt>
+        <dd class="col-sm-8">@Model.Emergency_Contact_Number</dd>
+
+        <dt class="col-sm-4 text-muted small">Occupancy Status</dt>
+        <dd class="col-sm-8">
+            @if (Model.Occupancy_Status == "Active")
+            {
+                <span class="badge-available">Active</span>
+            }
+            else
+            {
+                <span class="badge-occupied">@Model.Occupancy_Status</span>
+            }
+        </dd>
+    </dl>
+
+    <a asp-action="Edit" asp-route-id="@Model.Tenant_ID" class="btn btn-primary btn-sm">Edit</a>
+    <a asp-action="Index" class="btn btn-outline-secondary btn-sm">Back to List</a>
+</div>

@@ -1,0 +1,64 @@
+@model IEnumerable<CasaPuritaRMS.Models.Tenant>
+
+@{
+    ViewData["Title"] = "Tenants";
+}
+
+<div class="card-panel">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h6 class="m-0">Tenant List</h6>
+        <a asp-action="Create" class="btn btn-sm btn-primary">
+            <i class="bi bi-plus-lg"></i> Add Tenant
+        </a>
+    </div>
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success py-2">@TempData["Success"]</div>
+    }
+
+    <table class="table align-middle">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Contact</th>
+                <th>Email</th>
+                <th>Status</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var tenant in Model)
+            {
+                <tr>
+                    <td>@tenant.First_Name @tenant.Last_Name</td>
+                    <td>@tenant.Contact_Number</td>
+                    <td>@tenant.Email</td>
+                    <td>
+                        @if (tenant.Occupancy_Status == "Active")
+                        {
+                            <span class="badge-available">Active</span>
+                        }
+                        else
+                        {
+                            <span class="badge-occupied">@tenant.Occupancy_Status</span>
+                        }
+                    </td>
+                    <td class="text-end">
+                        <div class="btn-group btn-group-sm" role="group">
+                            <a asp-action="Edit" asp-route-id="@tenant.Tenant_ID" class="btn btn-outline-secondary" title="Edit">
+                                <i class="bi bi-pencil"></i>
+                            </a>
+                            <a asp-action="Details" asp-route-id="@tenant.Tenant_ID" class="btn btn-outline-secondary" title="View">
+                                <i class="bi bi-eye"></i>
+                            </a>
+                            <a asp-action="Delete" asp-route-id="@tenant.Tenant_ID" class="btn btn-outline-danger" title="Delete">
+                                <i class="bi bi-trash"></i>
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

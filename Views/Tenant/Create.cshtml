@@ -1,0 +1,61 @@
+@model CasaPuritaRMS.Models.Tenant
+
+@{
+    ViewData["Title"] = "Add Tenant";
+}
+
+<div class="card-panel" style="max-width:600px;">
+    <h6 class="mb-3">Add New Tenant</h6>
+
+    <form asp-action="Create" method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger mb-2"></div>
+
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label asp-for="First_Name" class="form-label small text-muted"></label>
+                <input asp-for="First_Name" class="form-control" />
+                <span asp-validation-for="First_Name" class="text-danger small"></span>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label asp-for="Last_Name" class="form-label small text-muted"></label>
+                <input asp-for="Last_Name" class="form-control" />
+                <span asp-validation-for="Last_Name" class="text-danger small"></span>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Email" class="form-label small text-muted"></label>
+            <input asp-for="Email" class="form-control" />
+            <span asp-validation-for="Email" class="text-danger small"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Contact_Number" class="form-label small text-muted"></label>
+            <input asp-for="Contact_Number" class="form-control" />
+            <span asp-validation-for="Contact_Number" class="text-danger small"></span>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label asp-for="Emergency_Contact_Name" class="form-label small text-muted"></label>
+                <input asp-for="Emergency_Contact_Name" class="form-control" />
+            </div>
+            <div class="col-md-6 mb-3">
+                <label asp-for="Emergency_Contact_Number" class="form-label small text-muted"></label>
+                <input asp-for="Emergency_Contact_Number" class="form-control" />
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Occupancy_Status" class="form-label small text-muted"></label>
+            <select asp-for="Occupancy_Status" class="form-select">
+                <option value="Active">Active</option>
+                <option value="Pending">Pending</option>
+                <option value="Moved-out">Moved-out</option>
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Save Tenant</button>
+        <a asp-action="Index" class="btn btn-outline-secondary">Cancel</a>
+    </form>
+</div>
