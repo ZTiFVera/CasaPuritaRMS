@@ -11,8 +11,8 @@ namespace CasaPuritaRMS.Models
             {
             }
 
-            public DbSet<Room> Rooms { get; set; }
-            public DbSet<Tenant> Tenants { get; set; }
+        public DbSet<Unit> Units { get; set; }
+        public DbSet<Tenant> Tenants { get; set; }
         }
 }
     

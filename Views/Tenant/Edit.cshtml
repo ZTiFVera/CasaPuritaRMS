@@ -36,6 +36,12 @@
             <span asp-validation-for="Contact_Number" class="text-danger small"></span>
         </div>
 
+        <div class="mb-3">
+            <label asp-for="Address" class="form-label small text-muted"></label>
+            <input asp-for="Address" class="form-control" />
+            <span asp-validation-for="Address" class="text-danger small"></span>
+        </div>
+
         <div class="row">
             <div class="col-md-6 mb-3">
                 <label asp-for="Emergency_Contact_Name" class="form-label small text-muted"></label>
@@ -51,8 +57,8 @@
             <label asp-for="Occupancy_Status" class="form-label small text-muted"></label>
             <select asp-for="Occupancy_Status" class="form-select">
                 <option value="Active">Active</option>
-                <option value="Pending">Pending</option>
-                <option value="Moved-out">Moved-out</option>
+                <option value="Inactive">Inactive</option>
+              
             </select>
         </div>
 

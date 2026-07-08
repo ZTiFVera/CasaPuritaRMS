@@ -1,7 +1,7 @@
-@model CasaPuritaRMS.Models.Room
+@model CasaPuritaRMS.Models.Unit
 
 @{
-    ViewData["Title"] = "Room Details";
+    ViewData["Title"] = "Unit Details";
 }
 
 <div class="card-panel" style="max-width:600px;">
@@ -9,7 +9,7 @@
 
     <dl class="row">
         <dt class="col-sm-4 text-muted small">Room Number</dt>
-        <dd class="col-sm-8">@Model.Room_Number</dd>
+        <dd class="col-sm-8">@Model.Unit_Number</dd>
 
         <dt class="col-sm-4 text-muted small">Floor</dt>
         <dd class="col-sm-8">@Model.Floor</dd>
@@ -23,13 +23,17 @@
             {
                 <span class="badge-available">Available</span>
             }
-            else
+            else if(Model.Status == "Occupied")
             {
                 <span class="badge-occupied">Occupied</span>
+            }
+            else
+            {
+            <span class="badge-maintenance">Maintenance</span>
             }
         </dd>
     </dl>
 
-    <a asp-action="Edit" asp-route-id="@Model.Room_ID" class="btn btn-primary btn-sm">Edit</a>
+    <a asp-action="Edit" asp-route-id="@Model.Unit_ID" class="btn btn-primary btn-sm">Edit</a>
     <a asp-action="Index" class="btn btn-outline-secondary btn-sm">Back to List</a>
 </div>

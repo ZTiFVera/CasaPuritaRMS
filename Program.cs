@@ -18,7 +18,7 @@ var app = builder.Build();
 // Configure the HTTP request pipeline
 if (!app.Environment.IsDevelopment())
 {
-    app.UseExceptionHandler("/Room/Index");
+    app.UseExceptionHandler("/Unit/Index");
     app.UseHsts();
 }
 
@@ -28,10 +28,10 @@ app.UseAuthorization();
 
 app.MapStaticAssets();
 
-// Default page is now Room Index
+// Default page is now Unit Index
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Room}/{action=Index}/{id?}")
+    pattern: "{controller=Unit}/{action=Index}/{id?}")
     .WithStaticAssets();
 
 app.Run();

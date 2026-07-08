@@ -1,14 +1,14 @@
-@model IEnumerable<CasaPuritaRMS.Models.Room>
+@model IEnumerable<CasaPuritaRMS.Models.Unit>
 
 @{
-    ViewData["Title"] = "Rooms";
+    ViewData["Title"] = "Unit";
 }
 
 <div class="card-panel">
     <div class="d-flex justify-content-between align-items-center mb-3">
-        <h6 class="m-0">Room List</h6>
+        <h6 class="m-0">Unit List</h6>
         <a asp-action="Create" class="btn btn-sm btn-primary">
-            <i class="bi bi-plus-lg"></i> Add Room
+            <i class="bi bi-plus-lg"></i> Add Unit
         </a>
     </div>
 
@@ -20,7 +20,7 @@
     <table class="table align-middle">
         <thead>
             <tr>
-                <th>Room Number</th>
+                <th>Unit Number</th>
                 <th>Floor</th>
                 <th>Capacity</th>
                 <th>Status</th>
@@ -31,7 +31,7 @@
             @foreach (var room in Model)
             {
                 <tr>
-                    <td>@room.Room_Number</td>
+                    <td>@room.Unit_Number</td>
                     <td>@room.Floor</td>
                     <td>@room.Capacity</td>
                     <td>
@@ -39,20 +39,24 @@
                         {
                             <span class="badge-available">Available</span>
                         }
-                        else
+                        else if(room.Status == "Occupied")
                         {
                             <span class="badge-occupied">Occupied</span>
+                        }
+                        else
+                        {
+                            <span class="badge-maintenance">Maintenance</span>
                         }
                     </td>
                     <td class="text-end">
                         <div class="btn-group btn-group-sm" role="group">
-                            <a asp-action="Edit" asp-route-id="@room.Room_ID" class="btn btn-outline-secondary" title="Edit">
+                            <a asp-action="Edit" asp-route-id="@room.Unit_ID" class="btn btn-outline-secondary" title="Edit">
                                 <i class="bi bi-pencil"></i>
                             </a>
-                            <a asp-action="Details" asp-route-id="@room.Room_ID" class="btn btn-outline-secondary" title="View">
+                            <a asp-action="Details" asp-route-id="@room.Unit_ID" class="btn btn-outline-secondary" title="View">
                                 <i class="bi bi-eye"></i>
                             </a>
-                            <a asp-action="Delete" asp-route-id="@room.Room_ID" class="btn btn-outline-danger" title="Delete">
+                            <a asp-action="Delete" asp-route-id="@room.Unit_ID" class="btn btn-outline-danger" title="Delete">
                                 <i class="bi bi-trash"></i>
                             </a>
                         </div>

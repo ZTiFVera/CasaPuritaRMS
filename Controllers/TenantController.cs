@@ -18,7 +18,7 @@ namespace CasaPuritaRMS.Controllers
         public async Task<IActionResult> Index()
         {
             var tenants = await _context.Tenants
-                .Include(t => t.Room)
+                .Include(t => t.Unit)
                 .ToListAsync();
             return View(tenants);
         }
@@ -29,7 +29,7 @@ namespace CasaPuritaRMS.Controllers
             if (id == null) return NotFound();
 
             var tenant = await _context.Tenants
-                .Include(t => t.Room)
+                .Include(t => t.Unit)
                 .FirstOrDefaultAsync(t => t.Tenant_ID == id);
 
             if (tenant == null) return NotFound();
@@ -39,7 +39,8 @@ namespace CasaPuritaRMS.Controllers
         // GET: Tenant/Create
         public IActionResult Create()
         {
-            return View();   // No need to load Room list if not assigning yet
+            ViewData["Unit_ID"] = new SelectList(_context.Units, "Unit_ID", "Unit_Number");
+            return View();
         }
 
         // POST: Tenant/Create
@@ -54,8 +55,11 @@ namespace CasaPuritaRMS.Controllers
                 TempData["Success"] = "Tenant added successfully!";
                 return RedirectToAction(nameof(Index));
             }
+
+            ViewData["Unit_ID"] = new SelectList(_context.Units, "Unit_ID", "Unit_Number");
             return View(tenant);
         }
+
         // GET: Tenant/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -64,7 +68,7 @@ namespace CasaPuritaRMS.Controllers
             var tenant = await _context.Tenants.FindAsync(id);
             if (tenant == null) return NotFound();
 
-            ViewData["Room_ID"] = new SelectList(_context.Rooms, "Room_ID", "Room_Number");
+            ViewData["Unit_ID"] = new SelectList(_context.Units, "Unit_ID", "Unit_Number");
             return View(tenant);
         }
 
@@ -93,7 +97,7 @@ namespace CasaPuritaRMS.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            ViewData["Room_ID"] = new SelectList(_context.Rooms, "Room_ID", "Room_Number");
+            ViewData["Unit_ID"] = new SelectList(_context.Units, "Unit_ID", "Unit_Number");
             return View(tenant);
         }
 
@@ -103,7 +107,7 @@ namespace CasaPuritaRMS.Controllers
             if (id == null) return NotFound();
 
             var tenant = await _context.Tenants
-                .Include(t => t.Room)
+                .Include(t => t.Unit)
                 .FirstOrDefaultAsync(t => t.Tenant_ID == id);
 
             if (tenant == null) return NotFound();
@@ -124,6 +128,7 @@ namespace CasaPuritaRMS.Controllers
             }
             return RedirectToAction(nameof(Index));
         }
+
         private async Task<bool> TenantExists(int id)
         {
             return await _context.Tenants.AnyAsync(e => e.Tenant_ID == id);

@@ -1,20 +1,20 @@
-@model CasaPuritaRMS.Models.Room
+@model CasaPuritaRMS.Models.Unit
 
 @{
-    ViewData["Title"] = "Edit Room";
+    ViewData["Title"] = "Edit Unit";
 }
 
 <div class="card-panel" style="max-width:500px;">
     <h6 class="mb-3">Edit Room</h6>
 
     <form asp-action="Edit" method="post">
-        <input type="hidden" asp-for="Room_ID" />
+        <input type="hidden" asp-for="Unit_ID" />
         <div asp-validation-summary="ModelOnly" class="text-danger mb-2"></div>
 
         <div class="mb-3">
-            <label asp-for="Room_Number" class="form-label small text-muted"></label>
-            <input asp-for="Room_Number" class="form-control" />
-            <span asp-validation-for="Room_Number" class="text-danger small"></span>
+            <label asp-for="Unit_Number" class="form-label small text-muted"></label>
+            <input asp-for="Unit_Number" class="form-control" />
+            <span asp-validation-for="Unit_Number" class="text-danger small"></span>
         </div>
 
         <div class="mb-3">
@@ -34,10 +34,12 @@
             <select asp-for="Status" class="form-select">
                 <option value="Available">Available</option>
                 <option value="Occupied">Occupied</option>
+                <option value="Maintenance">Maintenance</option>
+
             </select>
         </div>
 
-        <button type="submit" class="btn btn-primary">Update Room</button>
+        <button type="submit" class="btn btn-primary">Update Unit</button>
         <a asp-action="Index" class="btn btn-outline-secondary">Cancel</a>
     </form>
 </div>

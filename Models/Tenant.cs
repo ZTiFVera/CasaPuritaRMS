@@ -22,6 +22,11 @@ namespace CasaPuritaRMS.Models
         [StringLength(100)]
         public string? Email { get; set; }
 
+        [Required(ErrorMessage = "Address is required.")]
+        [StringLength(255)]
+        [Display(Name = "Address")]
+        public string Address { get; set; } = string.Empty;
+
         [Required(ErrorMessage = "Contact number is required.")]
         [StringLength(20)]
         [Display(Name = "Contact Number")]
@@ -35,18 +40,20 @@ namespace CasaPuritaRMS.Models
         [Display(Name = "Emergency Contact Number")]
         public string? Emergency_Contact_Number { get; set; }
 
+
+
         [Required(ErrorMessage = "Occupancy status is required.")]
         [StringLength(20)]
         [Display(Name = "Occupancy Status")]
         public string Occupancy_Status { get; set; } = "Active";
 
-        // Made nullable - no longer required
-        [Display(Name = "Room")]
-        [ForeignKey("Room")]
-        public int? Room_ID { get; set; }  
+
+        [Display(Name = "Unit")]
+        [ForeignKey("Unit")]
+        public int? Unit_ID { get; set; }   
 
         // Navigation property
-        public Room? Room { get; set; }
+        public Unit? Unit { get; set; }     
     }
 
 }

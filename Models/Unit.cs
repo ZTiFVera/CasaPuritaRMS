@@ -2,15 +2,15 @@
 
 namespace CasaPuritaRMS.Models
 {
-    public class Room
+    public class Unit
     {
         [Key]
-        public int Room_ID { get; set; }
+        public int Unit_ID { get; set; }
 
-        [Required(ErrorMessage = "Room number is required.")]
+        [Required(ErrorMessage = "Unit number is required.")]
         [StringLength(20)]
-        [Display(Name = "Room Number")]
-        public string Room_Number { get; set; } = string.Empty;
+        [Display(Name = "Unit Number")]
+        public string Unit_Number { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "Status is required.")]
         [StringLength(30)]

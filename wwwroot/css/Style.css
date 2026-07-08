@@ -106,7 +106,12 @@ body {
 
 
 
-
+.card-panel {
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    padding: 20px;
+}
 
 
 

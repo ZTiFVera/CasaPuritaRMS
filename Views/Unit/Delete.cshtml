@@ -1,19 +1,19 @@
-@model CasaPuritaRMS.Models.Room
+@model CasaPuritaRMS.Models.Unit
 
 @{
-    ViewData["Title"] = "Delete Room";
+    ViewData["Title"] = "Delete Unit";
 }
 
 <div class="card-panel" style="max-width:600px;">
-    <h6 class="mb-3 text-danger">Delete Room</h6>
+    <h6 class="mb-3 text-danger">Delete Unit</h6>
 
     <div class="alert alert-danger py-2">
-        Are you sure you want to delete this room? This action cannot be undone.
+        Are you sure you want to delete this unit? This action cannot be undone.
     </div>
 
     <dl class="row">
         <dt class="col-sm-4 text-muted small">Room Number</dt>
-        <dd class="col-sm-8">@Model.Room_Number</dd>
+        <dd class="col-sm-8">@Model.Unit_Number</dd>
 
         <dt class="col-sm-4 text-muted small">Floor</dt>
         <dd class="col-sm-8">@Model.Floor</dd>
@@ -26,7 +26,7 @@
     </dl>
 
     <form asp-action="Delete" method="post">
-        <input type="hidden" asp-for="Room_ID" />
+        <input type="hidden" asp-for="Unit_ID" />
         <button type="submit" class="btn btn-danger btn-sm">Delete</button>
         <a asp-action="Index" class="btn btn-outline-secondary btn-sm">Cancel</a>
     </form>

@@ -18,14 +18,14 @@
             </div>
             <ul class="sidebar-menu">
                 <li>
-                    <a asp-controller="Room" asp-action="Index"
-                       class="@(ViewContext.RouteData.Values["controller"].ToString() == "Room" ? "active" : "")">
-                        <i class="bi bi-door-open"></i> Room
+                    <a asp-controller="Unit" asp-action="Index"
+                       class="@(ViewContext.RouteData.Values["controller"]?.ToString() == "Unit" ? "active" : "")">
+                        <i class="bi bi-door-open"></i> Unit
                     </a>
                 </li>
                 <li>
                     <a asp-controller="Tenant" asp-action="Index"
-                       class="@(ViewContext.RouteData.Values["controller"].ToString() == "Tenant" ? "active" : "")">
+                       class="@(ViewContext.RouteData.Values["controller"]?.ToString() == "Tenant" ? "active" : "")">
                         <i class="bi bi-people"></i> Tenant
                     </a>
                 </li>
