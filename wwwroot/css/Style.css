@@ -143,3 +143,29 @@ body {
         border-color: #c0392b;
         color: #c0392b;
     }
+
+   /* for cr*/
+
+.badge-yes {
+    background: #e7f0fd;
+    color: #1e5fbf;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+}
+
+.badge-no {
+    background: #f1f2f4;
+    color: #6b7280;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+}
+
+.badge-maintenance {
+    background: #f1f2f4;
+    color: #6b7280;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+} 

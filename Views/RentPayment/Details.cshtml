@@ -1,0 +1,51 @@
+@model CasaPuritaRMS.Models.RentPayment
+
+@{
+    ViewData["Title"] = "Payment Details";
+}
+
+<div class="card-panel" style="max-width:600px;">
+    <h6 class="mb-3">Payment Details</h6>
+
+    <dl class="row">
+        <dt class="col-sm-4 text-muted small">Receipt Number</dt>
+        <dd class="col-sm-8"><strong>@Model.Receipt_Number</strong></dd>
+
+        <dt class="col-sm-4 text-muted small">Tenant</dt>
+        <dd class="col-sm-8">@Model.Tenant?.First_Name @Model.Tenant?.Last_Name</dd>
+
+        <dt class="col-sm-4 text-muted small">Monthly Rent</dt>
+        <dd class="col-sm-8">₱@Model.Monthly_Rent.ToString("N2")</dd>
+
+        <dt class="col-sm-4 text-muted small">Down Payment</dt>
+        <dd class="col-sm-8">₱@Model.Down_Payment.ToString("N2")</dd>
+
+        <dt class="col-sm-4 text-muted small">Amount Paid</dt>
+        <dd class="col-sm-8">₱@Model.Amount_Paid.ToString("N2")</dd>
+
+        <dt class="col-sm-4 text-muted small">Payment Date</dt>
+        <dd class="col-sm-8">@Model.Payment_Date.ToString("MMM dd, yyyy")</dd>
+
+        <dt class="col-sm-4 text-muted small">Due Date</dt>
+        <dd class="col-sm-8">@Model.Due_Date.ToString("MMM dd, yyyy")</dd>
+
+        <dt class="col-sm-4 text-muted small">Status</dt>
+        <dd class="col-sm-8">
+            @if (Model.Payment_Status == "Paid")
+            {
+                <span class="badge-available">Paid</span>
+            }
+            else if (Model.Payment_Status == "Overdue")
+            {
+                <span class="badge-occupied">Overdue</span>
+            }
+            else
+            {
+                <span class="badge-no">Pending</span>
+            }
+        </dd>
+    </dl>
+
+    <a asp-action="Edit" asp-route-id="@Model.Payment_ID" class="btn btn-primary btn-sm">Edit</a>
+    <a asp-action="Index" class="btn btn-outline-secondary btn-sm">Back to List</a>
+</div>

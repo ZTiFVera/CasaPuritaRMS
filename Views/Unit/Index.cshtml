@@ -24,39 +24,56 @@
                 <th>Floor</th>
                 <th>Capacity</th>
                 <th>Status</th>
+                <th>Confort Room</th>
+
                 <th></th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var room in Model)
+            @foreach (var unit in Model)
             {
                 <tr>
-                    <td>@room.Unit_Number</td>
-                    <td>@room.Floor</td>
-                    <td>@room.Capacity</td>
+                    <td>@unit.Unit_Number</td>
+                    <td>@unit.Floor</td>
+                    <td>@unit.Capacity</td>
+                
+
+
+                  
                     <td>
-                        @if (room.Status == "Available")
+                        @if (unit.Status == "Available")
                         {
                             <span class="badge-available">Available</span>
                         }
-                        else if(room.Status == "Occupied")
+                        else if (unit.Status == "Occupied")
                         {
                             <span class="badge-occupied">Occupied</span>
                         }
                         else
                         {
-                            <span class="badge-maintenance">Maintenance</span>
+                            <span class="badge-maintenance">@unit.Status</span>
+                        }
+                    </td>
+
+                    <td>
+                        @if (unit.Comfort_Room)
+                        {
+                            <span class="badge-yes">With CR</span>
+                        }
+                        else
+                        {
+                            <span class="badge-no">Without CR</span>
                         }
                     </td>
                     <td class="text-end">
                         <div class="btn-group btn-group-sm" role="group">
-                            <a asp-action="Edit" asp-route-id="@room.Unit_ID" class="btn btn-outline-secondary" title="Edit">
+                            <a asp-action="Edit" asp-route-id="@unit.Unit_ID" class="btn btn-outline-secondary" title="Edit">
                                 <i class="bi bi-pencil"></i>
                             </a>
-                            <a asp-action="Details" asp-route-id="@room.Unit_ID" class="btn btn-outline-secondary" title="View">
+                            <a asp-action="Details" asp-route-id="@unit.Unit_ID" class="btn btn-outline-secondary" title="View">
                                 <i class="bi bi-eye"></i>
                             </a>
-                            <a asp-action="Delete" asp-route-id="@room.Unit_ID" class="btn btn-outline-danger" title="Delete">
+                            <a asp-action="Delete" asp-route-id="@unit.Unit_ID" class="btn btn-outline-danger" title="Delete">
                                 <i class="bi bi-trash"></i>
                             </a>
                         </div>

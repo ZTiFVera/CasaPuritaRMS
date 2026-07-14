@@ -24,6 +24,11 @@ namespace CasaPuritaRMS.Models
         [Range(1, 20, ErrorMessage = "Capacity must be between 1 and 20.")]
         public int Capacity { get; set; } = 1;
 
+
+
+        [Display(Name = "Comfort Room (CR)")]
+        public bool Comfort_Room { get; set; } = false;
+
         // Navigation property
         public ICollection<Tenant>? Tenants { get; set; }
     }

@@ -1,0 +1,76 @@
+@model IEnumerable<CasaPuritaRMS.Models.RentPayment>
+
+@{
+    ViewData["Title"] = "Rent Payments";
+}
+
+<div class="card-panel">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h6 class="m-0">Rent Payment List</h6>
+        <a asp-action="Create" class="btn btn-sm btn-primary">
+            <i class="bi bi-plus-lg"></i> Add Payment
+        </a>
+    </div>
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success py-2">@TempData["Success"]</div>
+    }
+
+    <table class="table align-middle">
+        <thead>
+            <tr>
+                <th>Receipt No.</th>
+                <th>Tenant</th>
+                <th>Monthly Rent</th>
+                <th>Down Payment</th>
+                <th>Amount Paid</th>
+                <th>Payment Date</th>
+                <th>Due Date</th>
+                <th>Status</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Receipt_Number</td>
+                    <td>@item.Tenant?.First_Name @item.Tenant?.Last_Name</td>
+                    <td>₱@item.Monthly_Rent.ToString("N2")</td>
+                    <td>₱@item.Down_Payment.ToString("N2")</td>
+                    <td>₱@item.Amount_Paid.ToString("N2")</td>
+                    <td>@item.Payment_Date.ToString("MMM dd, yyyy")</td>
+                    <td>@item.Due_Date.ToString("MMM dd, yyyy")</td>
+                    <td>
+                        @if (item.Payment_Status == "Paid")
+                        {
+                            <span class="badge-available">Paid</span>
+                        }
+                        else if (item.Payment_Status == "Overdue")
+                        {
+                            <span class="badge-occupied">Overdue</span>
+                        }
+                        else
+                        {
+                            <span class="badge-no">Pending</span>
+                        }
+                    </td>
+                    <td class="text-end">
+                        <div class="btn-group btn-group-sm" role="group">
+                            <a asp-action="Edit" asp-route-id="@item.Payment_ID" class="btn btn-outline-secondary" title="Edit">
+                                <i class="bi bi-pencil"></i>
+                            </a>
+                            <a asp-action="Details" asp-route-id="@item.Payment_ID" class="btn btn-outline-secondary" title="View">
+                                <i class="bi bi-eye"></i>
+                            </a>
+                            <a asp-action="Delete" asp-route-id="@item.Payment_ID" class="btn btn-outline-danger" title="Delete">
+                                <i class="bi bi-trash"></i>
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

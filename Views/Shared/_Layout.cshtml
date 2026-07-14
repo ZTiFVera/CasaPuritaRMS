@@ -29,7 +29,14 @@
                         <i class="bi bi-people"></i> Tenant
                     </a>
                 </li>
+                <li>
+                    <a asp-controller="RentPayment" asp-action="Index"
+                       class="@(ViewContext.RouteData.Values["controller"]?.ToString() == "RentPayment" ? "active" : "")">
+                        <i class=""></i> Rent Payment
+                    </a>
+                </li>
             </ul>
+            
         </nav>
 
         <!-- MAIN CONTENT -->

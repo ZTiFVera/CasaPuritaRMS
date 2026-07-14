@@ -1,0 +1,62 @@
+@model CasaPuritaRMS.Models.RentPayment
+
+@{
+    ViewData["Title"] = "Edit Rent Payment";
+}
+
+<div class="card-panel" style="max-width:600px;">
+    <h6 class="mb-3">Edit Rent Payment</h6>
+
+    <form asp-action="Edit" method="post">
+        <input type="hidden" asp-for="Payment_ID" />
+        <input type="hidden" asp-for="Receipt_Number" />
+        <div asp-validation-summary="ModelOnly" class="text-danger mb-2"></div>
+
+        <div class="mb-3">
+            <label asp-for="Tenant_ID" class="form-label small text-muted">Tenant</label>
+            <select asp-for="Tenant_ID" class="form-select" asp-items="ViewBag.Tenant_ID">
+                <option value="">-- Select Tenant --</option>
+            </select>
+            <span asp-validation-for="Tenant_ID" class="text-danger small"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Monthly_Rent" class="form-label small text-muted"></label>
+            <input asp-for="Monthly_Rent" class="form-control" />
+            <span asp-validation-for="Monthly_Rent" class="text-danger small"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Down_Payment" class="form-label small text-muted"></label>
+            <input asp-for="Down_Payment" class="form-control" />
+            <span asp-validation-for="Down_Payment" class="text-danger small"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Amount_Paid" class="form-label small text-muted"></label>
+            <input asp-for="Amount_Paid" class="form-control" />
+            <span asp-validation-for="Amount_Paid" class="text-danger small"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Payment_Date" class="form-label small text-muted"></label>
+            <input asp-for="Payment_Date" type="date" class="form-control" />
+            <span asp-validation-for="Payment_Date" class="text-danger small"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Due_Date" class="form-label small text-muted"></label>
+            <input asp-for="Due_Date" type="date" class="form-control" />
+            <span asp-validation-for="Due_Date" class="text-danger small"></span>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Update Payment</button>
+        <a asp-action="Index" class="btn btn-outline-secondary">Cancel</a>
+    </form>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
