@@ -23,6 +23,10 @@ namespace CasaPuritaRMS.Models
         [Display(Name = "Down Payment")]
         public decimal Down_Payment { get; set; } = 0;
 
+        //[Column(TypeName = "decimal(10,2)")]
+        //[Display(Name = "Advance Payment")]
+        //public decimal Advance_Payment { get; set; } = 0;
+
         [Required(ErrorMessage = "Amount paid is required.")]
         [Column(TypeName = "decimal(10,2)")]
         [Display(Name = "Amount Paid")]
@@ -38,10 +42,12 @@ namespace CasaPuritaRMS.Models
         [Display(Name = "Due Date")]
         public DateTime Due_Date { get; set; }
 
+
         [Required]
         [StringLength(30)]
         [Display(Name = "Payment Status")]
-        public string Payment_Status { get; set; } = "Pending"; // Pending, Paid, Overdue
+        public string Payment_Status { get; set; } = "Overdue";  // Changed from "Partial"
+
         [StringLength(30)]
         [Display(Name = "Receipt Number")]
         public string? Receipt_Number { get; set; }

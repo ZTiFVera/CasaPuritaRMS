@@ -2,6 +2,11 @@
 
 @{
     ViewData["Title"] = "Payment Details";
+    decimal amountDue = Model.Monthly_Rent - Model.Amount_Paid;
+    if (amountDue < 0) amountDue = 0;
+    decimal advancePayment = Model.Amount_Paid > Model.Monthly_Rent
+        ? Model.Amount_Paid - Model.Monthly_Rent
+        : 0;
 }
 
 <div class="card-panel" style="max-width:600px;">
@@ -23,6 +28,30 @@
         <dt class="col-sm-4 text-muted small">Amount Paid</dt>
         <dd class="col-sm-8">₱@Model.Amount_Paid.ToString("N2")</dd>
 
+        <dt class="col-sm-4 text-muted small">Amount Due</dt>
+        <dd class="col-sm-8">
+            @if (amountDue > 0)
+            {
+                <span class="badge-occupied">₱@amountDue.ToString("N2")</span>
+            }
+            else
+            {
+                <span class="badge-available">₱0.00</span>
+            }
+        </dd>
+
+        <dt class="col-sm-4 text-muted small">Advance Payment</dt>
+        <dd class="col-sm-8">
+            @if (advancePayment > 0)
+            {
+                <span class="badge-yes">₱@advancePayment.ToString("N2")</span>
+            }
+            else
+            {
+                <span class="badge-no">₱0.00</span>
+            }
+        </dd>
+
         <dt class="col-sm-4 text-muted small">Payment Date</dt>
         <dd class="col-sm-8">@Model.Payment_Date.ToString("MMM dd, yyyy")</dd>
 
@@ -35,13 +64,9 @@
             {
                 <span class="badge-available">Paid</span>
             }
-            else if (Model.Payment_Status == "Overdue")
-            {
-                <span class="badge-occupied">Overdue</span>
-            }
             else
             {
-                <span class="badge-no">Pending</span>
+                <span class="badge-occupied">Overdue</span>
             }
         </dd>
     </dl>

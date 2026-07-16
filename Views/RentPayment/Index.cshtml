@@ -20,11 +20,12 @@
     <table class="table align-middle">
         <thead>
             <tr>
-                <th>Receipt No.</th>
                 <th>Tenant</th>
                 <th>Monthly Rent</th>
                 <th>Down Payment</th>
                 <th>Amount Paid</th>
+                <th>Amount Due</th>
+                <th>Advance Payment</th>
                 <th>Payment Date</th>
                 <th>Due Date</th>
                 <th>Status</th>
@@ -34,12 +35,40 @@
         <tbody>
             @foreach (var item in Model)
             {
+                // CALCULATE Amount Due
+                decimal amountDue = item.Monthly_Rent - item.Amount_Paid;
+                if (amountDue < 0) amountDue = 0;
+
+                // CALCULATE Advance Payment (automatic)
+                decimal advancePayment = item.Amount_Paid > item.Monthly_Rent
+                    ? item.Amount_Paid - item.Monthly_Rent
+                    : 0;
+
                 <tr>
-                    <td>@item.Receipt_Number</td>
                     <td>@item.Tenant?.First_Name @item.Tenant?.Last_Name</td>
                     <td>₱@item.Monthly_Rent.ToString("N2")</td>
                     <td>₱@item.Down_Payment.ToString("N2")</td>
                     <td>₱@item.Amount_Paid.ToString("N2")</td>
+                    <td>
+                        @if (amountDue > 0)
+                        {
+                            <span class="badge-occupied">₱@amountDue.ToString("N2")</span>
+                        }
+                        else
+                        {
+                            <span class="badge-available">₱0.00</span>
+                        }
+                    </td>
+                    <td>
+                        @if (advancePayment > 0)
+                        {
+                            <span class="badge-yes">₱@advancePayment.ToString("N2")</span>
+                        }
+                        else
+                        {
+                            <span class="badge-no">₱0.00</span>
+                        }
+                    </td>
                     <td>@item.Payment_Date.ToString("MMM dd, yyyy")</td>
                     <td>@item.Due_Date.ToString("MMM dd, yyyy")</td>
                     <td>
@@ -47,13 +76,9 @@
                         {
                             <span class="badge-available">Paid</span>
                         }
-                        else if (item.Payment_Status == "Overdue")
-                        {
-                            <span class="badge-occupied">Overdue</span>
-                        }
                         else
                         {
-                            <span class="badge-no">Pending</span>
+                            <span class="badge-occupied">Overdue</span>
                         }
                     </td>
                     <td class="text-end">

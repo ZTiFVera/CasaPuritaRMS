@@ -17,16 +17,11 @@ namespace CasaPuritaRMS.Controllers
         // Helper: Calculate live payment status
         private string CalculateStatus(RentPayment payment)
         {
-            bool isOverdue = DateTime.Now.Date > payment.Due_Date.Date;
-
-            // Only Amount_Paid matters for determining if rent is paid
-            // Down_Payment is just a separate transaction/deposit
+            // Only check Amount_Paid, not Advance_Payment
             if (payment.Amount_Paid >= payment.Monthly_Rent)
                 return "Paid";
-            else if (isOverdue)
-                return "Overdue";
             else
-                return "Pending";
+                return "Overdue";
         }
 
         // Helper: Load Tenant dropdown with Full Name
