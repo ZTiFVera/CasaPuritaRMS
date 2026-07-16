@@ -4,65 +4,89 @@
     ViewData["Title"] = "Edit Tenant";
 }
 
-<div class="card-panel" style="max-width:600px;">
-    <h6 class="mb-3">Edit Tenant</h6>
+<div class="card-panel form-card">
+
+    <div class="form-header">
+        <h6>Edit Tenant</h6>
+        <p class="form-subtitle">Update tenant profile and contact information</p>
+    </div>
 
     <form asp-action="Edit" method="post">
         <input type="hidden" asp-for="Tenant_ID" />
-        <div asp-validation-summary="ModelOnly" class="text-danger mb-2"></div>
+        <div asp-validation-summary="ModelOnly" class="form-error-summary"></div>
 
-        <div class="row">
-            <div class="col-md-6 mb-3">
-                <label asp-for="First_Name" class="form-label small text-muted"></label>
-                <input asp-for="First_Name" class="form-control" />
-                <span asp-validation-for="First_Name" class="text-danger small"></span>
+        <!-- PERSONAL INFORMATION -->
+        <div class="form-section">
+            <h6 class="form-section-title">Personal Information</h6>
+
+            <div class="form-grid">
+                <div class="form-group">
+                    <label asp-for="First_Name" class="form-label"></label>
+                    <input asp-for="First_Name" class="form-control-custom" />
+                    <span asp-validation-for="First_Name" class="form-error"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Last_Name" class="form-label"></label>
+                    <input asp-for="Last_Name" class="form-control-custom" />
+                    <span asp-validation-for="Last_Name" class="form-error"></span>
+                </div>
             </div>
-            <div class="col-md-6 mb-3">
-                <label asp-for="Last_Name" class="form-label small text-muted"></label>
-                <input asp-for="Last_Name" class="form-control" />
-                <span asp-validation-for="Last_Name" class="text-danger small"></span>
+
+            <div class="form-grid">
+                <div class="form-group">
+                    <label asp-for="Email" class="form-label"></label>
+                    <input asp-for="Email" class="form-control-custom" />
+                    <span asp-validation-for="Email" class="form-error"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Contact_Number" class="form-label"></label>
+                    <input asp-for="Contact_Number" class="form-control-custom" />
+                    <span asp-validation-for="Contact_Number" class="form-error"></span>
+                </div>
             </div>
-        </div>
 
-        <div class="mb-3">
-            <label asp-for="Email" class="form-label small text-muted"></label>
-            <input asp-for="Email" class="form-control" />
-            <span asp-validation-for="Email" class="text-danger small"></span>
-        </div>
-
-        <div class="mb-3">
-            <label asp-for="Contact_Number" class="form-label small text-muted"></label>
-            <input asp-for="Contact_Number" class="form-control" />
-            <span asp-validation-for="Contact_Number" class="text-danger small"></span>
-        </div>
-
-        <div class="mb-3">
-            <label asp-for="Address" class="form-label small text-muted"></label>
-            <input asp-for="Address" class="form-control" />
-            <span asp-validation-for="Address" class="text-danger small"></span>
-        </div>
-
-        <div class="row">
-            <div class="col-md-6 mb-3">
-                <label asp-for="Emergency_Contact_Name" class="form-label small text-muted"></label>
-                <input asp-for="Emergency_Contact_Name" class="form-control" />
-            </div>
-            <div class="col-md-6 mb-3">
-                <label asp-for="Emergency_Contact_Number" class="form-label small text-muted"></label>
-                <input asp-for="Emergency_Contact_Number" class="form-control" />
+            <div class="form-group form-group-full">
+                <label asp-for="Address" class="form-label"></label>
+                <input asp-for="Address" class="form-control-custom" />
+                <span asp-validation-for="Address" class="form-error"></span>
             </div>
         </div>
 
-        <div class="mb-3">
-            <label asp-for="Occupancy_Status" class="form-label small text-muted"></label>
-            <select asp-for="Occupancy_Status" class="form-select">
-                <option value="Active">Active</option>
-                <option value="Inactive">Inactive</option>
-              
-            </select>
+        <!-- EMERGENCY CONTACT -->
+        <div class="form-section">
+            <h6 class="form-section-title">Emergency Contact</h6>
+
+            <div class="form-grid">
+                <div class="form-group">
+                    <label asp-for="Emergency_Contact_Name" class="form-label"></label>
+                    <input asp-for="Emergency_Contact_Name" class="form-control-custom" />
+                </div>
+                <div class="form-group">
+                    <label asp-for="Emergency_Contact_Number" class="form-label"></label>
+                    <input asp-for="Emergency_Contact_Number" class="form-control-custom" />
+                </div>
+            </div>
         </div>
 
-        <button type="submit" class="btn btn-primary">Update Tenant</button>
-        <a asp-action="Index" class="btn btn-outline-secondary">Cancel</a>
+        <!-- STATUS -->
+        <div class="form-section">
+            <h6 class="form-section-title">Status</h6>
+
+            <div class="form-group form-group-full">
+                <label asp-for="Occupancy_Status" class="form-label"></label>
+                <select asp-for="Occupancy_Status" class="form-control-custom">
+                    <option value="Active">Active</option>
+                    <option value="Inactive">Inactive</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- ACTIONS -->
+        <div class="form-actions">
+            <a asp-action="Index" class="btn btn-outline-secondary btn-sm">Cancel</a>
+            <button type="submit" class="btn btn-primary btn-sm">
+                <i class="bi bi-check-lg"></i> Update Tenant
+            </button>
+        </div>
     </form>
 </div>

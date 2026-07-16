@@ -2,52 +2,62 @@
 
 @{
     ViewData["Title"] = "Unit Details";
+
+    string statusClass = Model.Status switch
+    {
+        "Available" => "badge-available",
+        "Occupied" => "badge-occupied",
+        _ => "badge-maintenance"
+    };
 }
 
-<div class="card-panel" style="max-width:600px;">
-    <h6 class="mb-3">Unit Details</h6>
+<div class="card-panel detail-card">
 
-    <dl class="row">
-        <dt class="col-sm-4 text-muted small">Unit Number</dt>
-        <dd class="col-sm-8">@Model.Unit_Number</dd>
+    <!-- UNIT HEADER -->
+    <div class="detail-header">
+        <div class="detail-avatar detail-avatar-icon">
+            <i class="bi bi-door-open"></i>
+        </div>
+        <div class="detail-header-info">
+            <h5>Unit @Model.Unit_Number</h5>
+            <span class="@statusClass">@Model.Status</span>
+        </div>
+    </div>
 
-        <dt class="col-sm-4 text-muted small">Floor</dt>
-        <dd class="col-sm-8">@Model.Floor</dd>
+    <!-- UNIT INFORMATION -->
+    <div class="detail-section">
+        <h6 class="detail-section-title">Unit Information</h6>
+        <div class="detail-grid">
+            <div class="detail-item">
+                <span class="detail-label">Floor</span>
+                <span class="detail-value">@Model.Floor</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Capacity</span>
+                <span class="detail-value">@Model.Capacity</span>
+            </div>
+            <div class="detail-item detail-item-full">
+                <span class="detail-label">Comfort Room</span>
+                @if (Model.Comfort_Room)
+                {
+                    <span class="badge-yes">With CR</span>
+                }
+                else
+                {
+                    <span class="badge-no">Without CR</span>
+                }
+            </div>
+        </div>
+    </div>
 
-        <dt class="col-sm-4 text-muted small">Capacity</dt>
-        <dd class="col-sm-8">@Model.Capacity</dd>
+    <!-- ACTIONS -->
+    <div class="detail-actions">
+        <a asp-action="Index" class="btn btn-outline-secondary btn-sm">
+            <i class="bi bi-arrow-left"></i> Back to List
+        </a>
+        <a asp-action="Edit" asp-route-id="@Model.Unit_ID" class="btn btn-primary btn-sm">
+            <i class="bi bi-pencil"></i> Edit Unit
+        </a>
+    </div>
 
-        <dt class="col-sm-4 text-muted small">Status</dt>
-       
-        <dd class="col-sm-8">
-            @if (Model.Status == "Available")
-            {
-                <span class="badge-available">Available</span>
-            }
-            else if(Model.Status == "Occupied")
-            {
-                <span class="badge-occupied">Occupied</span>
-            }
-            else
-            {
-            <span class="badge-maintenance">Maintenance</span>
-            }
-        </dd>
-        <dt class="col-sm-4 text-muted small">Comfort Room</dt>
-        <dd class="col-sm-8">
-            @if (Model.Comfort_Room)
-            {
-                <span class="badge-yes">With CR</span>
-            }
-            else
-            {
-                <span class="badge-no">Without CR</span>
-            }
-        </dd>
-
-     
-    </dl>
-
-    <a asp-action="Edit" asp-route-id="@Model.Unit_ID" class="btn btn-primary btn-sm">Edit</a>
-    <a asp-action="Index" class="btn btn-outline-secondary btn-sm">Back to List</a>
 </div>

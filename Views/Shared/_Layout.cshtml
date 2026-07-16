@@ -12,23 +12,20 @@
     <div class="app-wrapper">
 
         <!-- SIDEBAR -->
-        <nav class="sidebar" id="sidebar">
+        <nav class="sidebar">
 
             <div class="sidebar-header">
-                <div class="sidebar-logo">
-                    <i class="bi bi-building"></i>
-                    <span class="logo-text">Casa Purita</span>
+                <div class="sidebar-logo-text">
+                    Casa Purita
+                    <span class="sidebar-logo-subtext">APARTMENTS</span>
                 </div>
-                <button type="button" class="collapse-btn" id="collapseBtn" title="Collapse sidebar">
-                    <i class="bi bi-chevron-double-left"></i>
-                </button>
             </div>
-
             <ul class="sidebar-menu">
 
                 <li>
                     <a asp-controller="Unit" asp-action="Index"
-                       class="@(ViewContext.RouteData.Values["controller"]?.ToString() == "Unit" ? "active" : "")">
+                       class="@(ViewContext.RouteData.Values["controller"]?.ToString() == "Unit" ? "active" : "")"
+                       title="Unit">
                         <i class="bi bi-door-open menu-icon"></i>
                         <span class="menu-text">Unit</span>
                     </a>
@@ -36,7 +33,8 @@
 
                 <li>
                     <a asp-controller="Tenant" asp-action="Index"
-                       class="@(ViewContext.RouteData.Values["controller"]?.ToString() == "Tenant" ? "active" : "")">
+                       class="@(ViewContext.RouteData.Values["controller"]?.ToString() == "Tenant" ? "active" : "")"
+                       title="Tenant">
                         <i class="bi bi-people menu-icon"></i>
                         <span class="menu-text">Tenant</span>
                     </a>
@@ -44,39 +42,37 @@
 
                 <li>
                     <a asp-controller="RentPayment" asp-action="Index"
-                       class="@(ViewContext.RouteData.Values["controller"]?.ToString() == "RentPayment" ? "active" : "")">
+                       class="@(ViewContext.RouteData.Values["controller"]?.ToString() == "RentPayment" ? "active" : "")"
+                       title="Rent Payment">
                         <i class="bi bi-cash-coin menu-icon"></i>
                         <span class="menu-text">Rent Payment</span>
                     </a>
                 </li>
 
-              @*   <li>
-                    <a asp-controller="Maintenance" asp-action="Index"
-                       class="@(ViewContext.RouteData.Values["controller"]?.ToString() == "Maintenance" ? "active" : "")">
+                @* Uncomment once these controllers/views exist *@
+                @* <li>
+                    <a asp-controller="Maintenance" asp-action="Index" title="Maintenance">
                         <i class="bi bi-tools menu-icon"></i>
                         <span class="menu-text">Maintenance</span>
                     </a>
-                </li>
- *@
-              @*   <li>
-                    <a asp-controller="Notification" asp-action="Index"
-                       class="@(ViewContext.RouteData.Values["controller"]?.ToString() == "Notification" ? "active" : "")">
+                </li> *@
+
+                @* <li>
+                    <a asp-controller="Notification" asp-action="Index" title="Notifications">
                         <i class="bi bi-bell menu-icon"></i>
                         <span class="menu-text">Notifications</span>
                     </a>
                 </li> *@
 
-               @*  <li>
-                    <a asp-controller="Report" asp-action="Index"
-                       class="@(ViewContext.RouteData.Values["controller"]?.ToString() == "Report" ? "active" : "")">
+                @* <li>
+                    <a asp-controller="Report" asp-action="Index" title="Reports">
                         <i class="bi bi-file-earmark-text menu-icon"></i>
                         <span class="menu-text">Reports</span>
                     </a>
                 </li> *@
 
-               @*  <li>
-                    <a asp-controller="Analytics" asp-action="Index"
-                       class="@(ViewContext.RouteData.Values["controller"]?.ToString() == "Analytics" ? "active" : "")">
+                @* <li>
+                    <a asp-controller="Analytics" asp-action="Index" title="Analytics">
                         <i class="bi bi-bar-chart menu-icon"></i>
                         <span class="menu-text">Analytics</span>
                     </a>
@@ -107,13 +103,6 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
-    <script>
-        document.getElementById('collapseBtn').addEventListener('click', function () {
-        document.getElementById('sidebar').classList.toggle('collapsed');
-        });
-    </script>
-
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

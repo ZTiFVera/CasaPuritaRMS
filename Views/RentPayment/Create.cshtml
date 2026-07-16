@@ -4,52 +4,77 @@
     ViewData["Title"] = "Add Rent Payment";
 }
 
-<div class="card-panel" style="max-width:600px;">
-    <h6 class="mb-3">Add Rent Payment</h6>
+<div class="card-panel form-card">
+
+    <div class="form-header">
+        <h6>Add Rent Payment</h6>
+        <p class="form-subtitle">Record a new payment transaction for a tenant</p>
+    </div>
 
     <form asp-action="Create" method="post">
-        <div asp-validation-summary="ModelOnly" class="text-danger mb-2"></div>
+        <div asp-validation-summary="ModelOnly" class="form-error-summary"></div>
 
-        <div class="mb-3">
-            <label asp-for="Tenant_ID" class="form-label small text-muted">Tenant</label>
-            <select asp-for="Tenant_ID" class="form-select" asp-items="ViewBag.Tenant_ID">
-                <option value="">-- Select Tenant --</option>
-            </select>
-            <span asp-validation-for="Tenant_ID" class="text-danger small"></span>
+        <!-- TENANT -->
+        <div class="form-section">
+            <h6 class="form-section-title">Tenant</h6>
+
+            <div class="form-group form-group-full">
+                <label asp-for="Tenant_ID" class="form-label">Tenant</label>
+                <select asp-for="Tenant_ID" class="form-control-custom" asp-items="ViewBag.Tenant_ID">
+                    <option value="">-- Select Tenant --</option>
+                </select>
+                <span asp-validation-for="Tenant_ID" class="form-error"></span>
+            </div>
         </div>
 
-        <div class="mb-3">
-            <label asp-for="Monthly_Rent" class="form-label small text-muted"></label>
-            <input asp-for="Monthly_Rent" class="form-control" />
-            <span asp-validation-for="Monthly_Rent" class="text-danger small"></span>
+        <!-- PAYMENT AMOUNTS -->
+        <div class="form-section">
+            <h6 class="form-section-title">Payment Amounts</h6>
+
+            <div class="form-grid">
+                <div class="form-group">
+                    <label asp-for="Monthly_Rent" class="form-label"></label>
+                    <input asp-for="Monthly_Rent" class="form-control-custom" />
+                    <span asp-validation-for="Monthly_Rent" class="form-error"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Down_Payment" class="form-label"></label>
+                    <input asp-for="Down_Payment" class="form-control-custom" />
+                    <span asp-validation-for="Down_Payment" class="form-error"></span>
+                </div>
+            </div>
+
+            <div class="form-group form-group-full">
+                <label asp-for="Amount_Paid" class="form-label"></label>
+                <input asp-for="Amount_Paid" class="form-control-custom" />
+                <span asp-validation-for="Amount_Paid" class="form-error"></span>
+            </div>
         </div>
 
-        <div class="mb-3">
-            <label asp-for="Down_Payment" class="form-label small text-muted"></label>
-            <input asp-for="Down_Payment" class="form-control" />
-            <span asp-validation-for="Down_Payment" class="text-danger small"></span>
-        </div>
-       
+        <!-- SCHEDULE -->
+        <div class="form-section">
+            <h6 class="form-section-title">Payment Schedule</h6>
 
-        <div class="mb-3">
-            <label asp-for="Amount_Paid" class="form-label small text-muted"></label>
-            <input asp-for="Amount_Paid" class="form-control" />
-            <span asp-validation-for="Amount_Paid" class="text-danger small"></span>
-        </div>
-
-        <div class="mb-3">
-            <label asp-for="Payment_Date" class="form-label small text-muted"></label>
-            <input asp-for="Payment_Date" type="date" class="form-control" />
-            <span asp-validation-for="Payment_Date" class="text-danger small"></span>
-        </div>
-
-        <div class="mb-3">
-            <label asp-for="Due_Date" class="form-label small text-muted"></label>
-            <input asp-for="Due_Date" type="date" class="form-control" />
-            <span asp-validation-for="Due_Date" class="text-danger small"></span>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label asp-for="Payment_Date" class="form-label"></label>
+                    <input asp-for="Payment_Date" type="date" class="form-control-custom" />
+                    <span asp-validation-for="Payment_Date" class="form-error"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Due_Date" class="form-label"></label>
+                    <input asp-for="Due_Date" type="date" class="form-control-custom" />
+                    <span asp-validation-for="Due_Date" class="form-error"></span>
+                </div>
+            </div>
         </div>
 
-        <button type="submit" class="btn btn-primary">Save Payment</button>
-        <a asp-action="Index" class="btn btn-outline-secondary">Cancel</a>
+        <!-- ACTIONS -->
+        <div class="form-actions">
+            <a asp-action="Index" class="btn btn-outline-secondary btn-sm">Cancel</a>
+            <button type="submit" class="btn btn-primary btn-sm">
+                <i class="bi bi-check-lg"></i> Save Payment
+            </button>
+        </div>
     </form>
 </div>

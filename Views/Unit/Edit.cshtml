@@ -4,46 +4,62 @@
     ViewData["Title"] = "Edit Unit";
 }
 
-<div class="card-panel" style="max-width:500px;">
-    <h6 class="mb-3">Edit Room</h6>
+<div class="card-panel form-card form-card-sm">
+
+    <div class="form-header">
+        <h6>Edit Unit</h6>
+        <p class="form-subtitle">Update details for Unit @Model.Unit_Number</p>
+    </div>
 
     <form asp-action="Edit" method="post">
         <input type="hidden" asp-for="Unit_ID" />
-        <div asp-validation-summary="ModelOnly" class="text-danger mb-2"></div>
+        <div asp-validation-summary="ModelOnly" class="form-error-summary"></div>
 
-        <div class="mb-3">
-            <label asp-for="Unit_Number" class="form-label small text-muted"></label>
-            <input asp-for="Unit_Number" class="form-control" />
-            <span asp-validation-for="Unit_Number" class="text-danger small"></span>
+        <div class="form-section">
+            <h6 class="form-section-title">Unit Information</h6>
+
+            <div class="form-grid">
+                <div class="form-group">
+                    <label asp-for="Unit_Number" class="form-label"></label>
+                    <input asp-for="Unit_Number" class="form-control-custom" />
+                    <span asp-validation-for="Unit_Number" class="form-error"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Floor" class="form-label"></label>
+                    <input asp-for="Floor" class="form-control-custom" />
+                    <span asp-validation-for="Floor" class="form-error"></span>
+                </div>
+            </div>
+
+            <div class="form-grid">
+                <div class="form-group">
+                    <label asp-for="Capacity" class="form-label"></label>
+                    <input asp-for="Capacity" class="form-control-custom" />
+                    <span asp-validation-for="Capacity" class="form-error"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Status" class="form-label"></label>
+                    <select asp-for="Status" class="form-control-custom">
+                        <option value="Available">Available</option>
+                        <option value="Occupied">Occupied</option>
+                        <option value="Maintenance">Maintenance</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group form-group-full">
+                <div class="form-check-custom">
+                    <input asp-for="Comfort_Room" class="form-check-input-custom" />
+                    <label asp-for="Comfort_Room" class="form-check-label-custom">With Comfort Room (CR)</label>
+                </div>
+            </div>
         </div>
 
-        <div class="mb-3">
-            <label asp-for="Floor" class="form-label small text-muted"></label>
-            <input asp-for="Floor" class="form-control" />
-            <span asp-validation-for="Floor" class="text-danger small"></span>
+        <div class="form-actions">
+            <a asp-action="Index" class="btn btn-outline-secondary btn-sm">Cancel</a>
+            <button type="submit" class="btn btn-primary btn-sm">
+                <i class="bi bi-check-lg"></i> Update Unit
+            </button>
         </div>
-
-        <div class="mb-3">
-            <label asp-for="Capacity" class="form-label small text-muted"></label>
-            <input asp-for="Capacity" class="form-control" />
-            <span asp-validation-for="Capacity" class="text-danger small"></span>
-        </div>
-
-        <div class="mb-3">
-            <label asp-for="Status" class="form-label small text-muted"></label>
-            <select asp-for="Status" class="form-select">
-                <option value="Available">Available</option>
-                <option value="Occupied">Occupied</option>
-                <option value="Maintenance">Maintenance</option>
-
-            </select>
-        </div>
-        <div class="mb-3 form-check">
-            <input asp-for="Comfort_Room" class="form-check-input" />
-            <label asp-for="Comfort_Room" class="form-check-label small text-muted">With Comfort Room (CR)</label>
-        </div>
-
-        <button type="submit" class="btn btn-primary">Update Unit</button>
-        <a asp-action="Index" class="btn btn-outline-secondary">Cancel</a>
     </form>
 </div>

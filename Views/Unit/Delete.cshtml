@@ -2,32 +2,45 @@
 
 @{
     ViewData["Title"] = "Delete Unit";
+
+    string statusClass = Model.Status switch
+    {
+        "Available" => "badge-available",
+        "Occupied" => "badge-occupied",
+        _ => "badge-maintenance"
+    };
 }
 
-<div class="card-panel" style="max-width:600px;">
-    <h6 class="mb-3 text-danger">Delete Unit</h6>
+<div class="card-panel delete-card">
 
-    <div class="alert alert-danger py-2">
-        Are you sure you want to delete this unit? This action cannot be undone.
+    <div class="delete-icon-wrap">
+        <i class="bi bi-exclamation-triangle-fill"></i>
     </div>
 
-    <dl class="row">
-        <dt class="col-sm-4 text-muted small">Room Number</dt>
-        <dd class="col-sm-8">@Model.Unit_Number</dd>
+    <h6 class="delete-title">Delete this unit?</h6>
+    <p class="delete-subtitle">
+        This action is permanent and cannot be undone. Any tenant assignments or history linked to this unit may be affected.
+    </p>
 
-        <dt class="col-sm-4 text-muted small">Floor</dt>
-        <dd class="col-sm-8">@Model.Floor</dd>
-
-        <dt class="col-sm-4 text-muted small">Capacity</dt>
-        <dd class="col-sm-8">@Model.Capacity</dd>
-
-        <dt class="col-sm-4 text-muted small">Status</dt>
-        <dd class="col-sm-8">@Model.Status</dd>
-    </dl>
+    <div class="delete-preview">
+        <div class="delete-avatar delete-avatar-icon">
+            <i class="bi bi-door-open"></i>
+        </div>
+        <div class="delete-preview-info">
+            <span class="delete-preview-name">Unit @Model.Unit_Number</span>
+            <span class="delete-preview-meta">Floor @Model.Floor &middot; Capacity @Model.Capacity</span>
+        </div>
+        <span class="@statusClass delete-preview-badge">@Model.Status</span>
+    </div>
 
     <form asp-action="Delete" method="post">
         <input type="hidden" asp-for="Unit_ID" />
-        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
-        <a asp-action="Index" class="btn btn-outline-secondary btn-sm">Cancel</a>
+        <div class="form-actions">
+            <a asp-action="Index" class="btn btn-outline-secondary btn-sm">Cancel</a>
+            <button type="submit" class="btn btn-danger-custom btn-sm">
+                <i class="bi bi-trash"></i> Delete Unit
+            </button>
+        </div>
     </form>
+
 </div>

@@ -5,8 +5,9 @@
 }
 
 <div class="card-panel">
-    <div class="d-flex justify-content-between align-items-center mb-3">
-        <h6 class="m-0">Unit List</h6>
+
+    <div class="card-panel-header">
+        <h6>Unit List</h6>
         <a asp-action="Create" class="btn btn-sm btn-primary">
             <i class="bi bi-plus-lg"></i> Add Unit
         </a>
@@ -14,32 +15,37 @@
 
     @if (TempData["Success"] != null)
     {
-        <div class="alert alert-success py-2">@TempData["Success"]</div>
+        <div class="alert alert-success py-2 mx-4 mt-3">@TempData["Success"]</div>
     }
 
     <table class="table align-middle">
         <thead>
             <tr>
-                <th>Unit Number</th>
-                <th>Floor</th>
-                <th>Capacity</th>
-                <th>Status</th>
-                <th>Confort Room</th>
-
-                <th></th>
+                <th style="width:20%">Unit Number</th>
+                <th style="width:12%">Floor</th>
+                <th style="width:12%">Capacity</th>
+                <th style="width:18%">Status</th>
+                <th style="width:18%">Comfort Room</th>
+                <th style="width:20%" class="text-end">Actions</th>
             </tr>
         </thead>
         <tbody>
+            @if (!Model.Any())
+            {
+                <tr>
+                    <td colspan="6" class="text-center text-muted py-5">
+                        <i class="bi bi-door-open fs-3 d-block mb-2"></i>
+                        No units found. Click "Add Unit" to create one.
+                    </td>
+                </tr>
+            }
             @foreach (var unit in Model)
             {
                 <tr>
                     <td>@unit.Unit_Number</td>
                     <td>@unit.Floor</td>
                     <td>@unit.Capacity</td>
-                
 
-
-                  
                     <td>
                         @if (unit.Status == "Available")
                         {
@@ -65,6 +71,7 @@
                             <span class="badge-no">Without CR</span>
                         }
                     </td>
+
                     <td class="text-end">
                         <div class="btn-group btn-group-sm" role="group">
                             <a asp-action="Edit" asp-route-id="@unit.Unit_ID" class="btn btn-outline-secondary" title="Edit">
