@@ -1,4 +1,4 @@
-* {
+/** {
     box-sizing: border-box;
 }
 
@@ -6,10 +6,10 @@ body {
     background-color: #f4f6f9;
     font-family: 'Segoe UI', Arial, sans-serif;
     margin: 0;
-}
+}*/
 
 /* ================= SIDEBAR ================= */
-.sidebar {
+/*.sidebar {
     width: 240px;
     height: 100vh;
     background: #ffffff;
@@ -20,10 +20,10 @@ body {
     flex-direction: column;
     transition: width 0.25s ease;
     overflow: hidden;
-}
+}*/
 
     /* Collapsed state — icons only */
-    .sidebar.collapsed {
+    /*.sidebar.collapsed {
         width: 76px;
     }
 
@@ -74,10 +74,10 @@ body {
 
 .sidebar.collapsed .collapse-icon {
     transform: rotate(180deg);
-}
+}*/
 
 /* Create New button */
-.btn-create-new {
+/*.btn-create-new {
     margin: 16px;
     background: #1e3a5f;
     color: #fff;
@@ -101,10 +101,10 @@ body {
 .btn-icon {
     width: 14px;
     height: 14px;
-}
+}*/
 
 /* Menu */
-.sidebar-menu {
+/*.sidebar-menu {
     list-style: none;
     padding: 10px 0;
     margin: 0;
@@ -123,16 +123,16 @@ body {
         white-space: nowrap;
         cursor: pointer;
         transition: background 0.15s ease, color 0.15s ease;
-    }
+    }*/
 
         /* HOVER = gray */
-        .sidebar-menu li a:hover {
+        /*.sidebar-menu li a:hover {
             background: #eceef1;
             color: #111;
-        }
+        }*/
 
         /* ACTIVE / CLICKED = black */
-        .sidebar-menu li a.active {
+        /*.sidebar-menu li a.active {
             background: #000000;
             color: #ffffff;
             border-radius: 0 20px 20px 0;
@@ -161,10 +161,10 @@ body {
 
 .has-submenu.open > a .chevron-icon {
     transform: rotate(180deg);
-}
+}*/
 
 /* Submenu */
-.submenu {
+/*.submenu {
     list-style: none;
     padding: 0;
     margin: 0;
@@ -186,10 +186,10 @@ body {
     .submenu li a:hover {
         background: #eceef1;
         color: #111;
-    }
+    }*/
 
 /* Hide text & chevrons when collapsed */
-.sidebar.collapsed .menu-text,
+/*.sidebar.collapsed .menu-text,
 .sidebar.collapsed .btn-text,
 .sidebar.collapsed .chevron-icon,
 .sidebar.collapsed .logo-text,
@@ -205,3 +205,4 @@ body {
 
 .sidebar.collapsed .btn-create-new {
     padding:
+}*/
