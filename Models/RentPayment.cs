@@ -23,10 +23,6 @@ namespace CasaPuritaRMS.Models
         [Display(Name = "Down Payment")]
         public decimal Down_Payment { get; set; } = 0;
 
-        //[Column(TypeName = "decimal(10,2)")]
-        //[Display(Name = "Advance Payment")]
-        //public decimal Advance_Payment { get; set; } = 0;
-
         [Required(ErrorMessage = "Amount paid is required.")]
         [Column(TypeName = "decimal(10,2)")]
         [Display(Name = "Amount Paid")]
@@ -46,10 +42,24 @@ namespace CasaPuritaRMS.Models
         [Required]
         [StringLength(30)]
         [Display(Name = "Payment Status")]
-        public string Payment_Status { get; set; } = "Overdue";  // Changed from "Partial"
+        public string Payment_Status { get; set; } = "Pending";
 
         [StringLength(30)]
         [Display(Name = "Receipt Number")]
         public string? Receipt_Number { get; set; }
+
+      
+
+        [NotMapped]
+        [Display(Name = "Total Paid")]
+        public decimal Total_Paid => Down_Payment + Amount_Paid;
+
+        [NotMapped]
+        [Display(Name = "Balance")]
+        public decimal Balance => Monthly_Rent > Total_Paid ? Monthly_Rent - Total_Paid : 0;
+
+        [NotMapped]
+        [Display(Name = "Advance / Overpayment")]
+        public decimal Advance_Credit => Total_Paid > Monthly_Rent ? Total_Paid - Monthly_Rent : 0;
     }
 }

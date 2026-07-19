@@ -45,24 +45,15 @@
             }
             @foreach (var item in Model)
             {
-                // CALCULATE Amount Due
-                decimal amountDue = item.Monthly_Rent - item.Amount_Paid;
-                if (amountDue < 0) amountDue = 0;
-
-                // CALCULATE Advance Payment (automatic)
-                decimal advancePayment = item.Amount_Paid > item.Monthly_Rent
-                    ? item.Amount_Paid - item.Monthly_Rent
-                    : 0;
-
                 <tr>
                     <td>@item.Tenant?.First_Name @item.Tenant?.Last_Name</td>
                     <td>₱@item.Monthly_Rent.ToString("N2")</td>
                     <td>₱@item.Down_Payment.ToString("N2")</td>
                     <td>₱@item.Amount_Paid.ToString("N2")</td>
                     <td>
-                        @if (amountDue > 0)
+                        @if (item.Balance > 0)
                         {
-                            <span class="badge-occupied">₱@amountDue.ToString("N2")</span>
+                            <span class="badge-occupied">₱@item.Balance.ToString("N2")</span>
                         }
                         else
                         {
@@ -70,9 +61,9 @@
                         }
                     </td>
                     <td>
-                        @if (advancePayment > 0)
+                        @if (item.Advance_Credit > 0)
                         {
-                            <span class="badge-yes">₱@advancePayment.ToString("N2")</span>
+                            <span class="badge-yes">₱@item.Advance_Credit.ToString("N2")</span>
                         }
                         else
                         {
@@ -82,13 +73,20 @@
                     <td>@item.Payment_Date.ToString("MMM dd, yyyy")</td>
                     <td>@item.Due_Date.ToString("MMM dd, yyyy")</td>
                     <td>
-                        @if (item.Payment_Status == "Paid")
+                        @switch (item.Payment_Status)
                         {
-                            <span class="badge-available">Paid</span>
-                        }
-                        else
-                        {
-                            <span class="badge-occupied">Overdue</span>
+                            case "Paid":
+                                <span class="badge-available">Paid</span>
+                                break;
+                            case "Partial":
+                                <span class="badge-partial">Partial</span>
+                                break;
+                            case "Overdue":
+                                <span class="badge-occupied">Overdue</span>
+                                break;
+                            default:
+                                <span class="badge-maintenance">Pending</span>
+                                break;
                         }
                     </td>
                     <td class="text-end">

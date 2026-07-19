@@ -14,14 +14,26 @@ namespace CasaPuritaRMS.Controllers
             _context = context;
         }
 
-        // Helper: Calculate live payment status
+        // Helper: Calculate live payment status.
+        // Counts Down_Payment + Amount_Paid together (Total_Paid), and checks
+        // today's date against Due_Date so a payment isn't wrongly marked
+        // "Overdue" before it's actually due.
+        //
+        //   Paid     -> Total_Paid covers the Monthly_Rent
+        //   Overdue  -> due date has passed and it's not fully paid
+        //   Partial  -> something has been paid, due date hasn't passed yet
+        //   Pending  -> nothing paid yet, due date hasn't passed yet
         private string CalculateStatus(RentPayment payment)
         {
-            // Only check Amount_Paid, not Advance_Payment
-            if (payment.Amount_Paid >= payment.Monthly_Rent)
+            decimal totalPaid = payment.Down_Payment + payment.Amount_Paid;
+
+            if (totalPaid >= payment.Monthly_Rent)
                 return "Paid";
-            else
+
+            if (DateTime.Today > payment.Due_Date.Date)
                 return "Overdue";
+
+            return totalPaid > 0 ? "Partial" : "Pending";
         }
 
         // Helper: Load Tenant dropdown with Full Name
@@ -76,6 +88,30 @@ namespace CasaPuritaRMS.Controllers
             return View();
         }
 
+        // GET: RentPayment/GetLastPayment?tenantId=5
+        // Used by Create.cshtml (AJAX) to auto-fill Monthly_Rent and suggest
+        // the next Due_Date from this tenant's most recent payment record,
+        // so the admin isn't retyping the same rent amount every month.
+        // The admin can still edit the value if the rent actually changed.
+        [HttpGet]
+        public async Task<JsonResult> GetLastPayment(int tenantId)
+        {
+            var last = await _context.RentPayments
+                .Where(p => p.Tenant_ID == tenantId)
+                .OrderByDescending(p => p.Payment_Date)
+                .FirstOrDefaultAsync();
+
+            if (last == null)
+                return Json(new { found = false });
+
+            return Json(new
+            {
+                found = true,
+                monthlyRent = last.Monthly_Rent,
+                nextDueDate = last.Due_Date.AddMonths(1).ToString("yyyy-MM-dd")
+            });
+        }
+
         // POST: RentPayment/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -89,7 +125,7 @@ namespace CasaPuritaRMS.Controllers
                 _context.RentPayments.Add(payment);
                 await _context.SaveChangesAsync();
 
-                // Now generate receipt number using the auto-generated Payment_ID
+                // generate receipt number using the auto-generated Payment_ID
                 payment.Receipt_Number = "RCPT-" + DateTime.Now.ToString("yyMMddHHmmss") + "-" + payment.Payment_ID;
 
                 // Update the record with the receipt number

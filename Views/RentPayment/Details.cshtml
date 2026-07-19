@@ -3,15 +3,13 @@
 @{
     ViewData["Title"] = "Payment Details";
 
-    decimal amountDue = Model.Monthly_Rent - Model.Amount_Paid;
-    if (amountDue < 0) amountDue = 0;
-
-    decimal advancePayment = Model.Amount_Paid > Model.Monthly_Rent
-        ? Model.Amount_Paid - Model.Monthly_Rent
-        : 0;
-
-    string statusClass = Model.Payment_Status == "Paid" ? "badge-available" : "badge-occupied";
-    string statusLabel = Model.Payment_Status == "Paid" ? "Paid" : "Overdue";
+    string statusClass = Model.Payment_Status switch
+    {
+        "Paid" => "badge-available",
+        "Partial" => "badge-partial",
+        "Overdue" => "badge-occupied",
+        _ => "badge-maintenance"
+    };
 }
 
 <div class="card-panel detail-card">
@@ -23,7 +21,7 @@
         </div>
         <div class="detail-header-info">
             <h5>Receipt #@Model.Receipt_Number</h5>
-            <span class="@statusClass">@statusLabel</span>
+            <span class="@statusClass">@Model.Payment_Status</span>
         </div>
     </div>
 
@@ -55,10 +53,14 @@
                 <span class="detail-value">₱@Model.Amount_Paid.ToString("N2")</span>
             </div>
             <div class="detail-item">
-                <span class="detail-label">Amount Due</span>
-                @if (amountDue > 0)
+                <span class="detail-label">Total Paid</span>
+                <span class="detail-value">₱@Model.Total_Paid.ToString("N2")</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Balance</span>
+                @if (Model.Balance > 0)
                 {
-                    <span class="badge-occupied">₱@amountDue.ToString("N2")</span>
+                    <span class="badge-occupied">₱@Model.Balance.ToString("N2")</span>
                 }
                 else
                 {
@@ -66,10 +68,10 @@
                 }
             </div>
             <div class="detail-item detail-item-full">
-                <span class="detail-label">Advance Payment</span>
-                @if (advancePayment > 0)
+                <span class="detail-label">Advance / Overpayment</span>
+                @if (Model.Advance_Credit > 0)
                 {
-                    <span class="badge-yes">₱@advancePayment.ToString("N2")</span>
+                    <span class="badge-yes">₱@Model.Advance_Credit.ToString("N2")</span>
                 }
                 else
                 {
