@@ -39,6 +39,7 @@ namespace CasaPuritaRMS.Controllers
                 .ToListAsync();
 
             int created = 0;
+            int downPaymentsApplied = 0;
 
             foreach (var tenant in tenants)
             {
@@ -55,11 +56,18 @@ namespace CasaPuritaRMS.Controllers
 
                     if (!exists)
                     {
+                        // The down payment is only ever applied to the tenant's
+                        // very first due (their move-in month). Later months
+                        // always start unpaid, regardless of how many times
+                        // GenerateDues runs.
+                        bool isFirstDue = due == tenant.First_Due_Date;
+                        decimal downPaymentApplied = isFirstDue ? tenant.Down_Payment : 0;
+
                         var payment = new RentPayment
                         {
                             Tenant_ID = tenant.Tenant_ID,
                             Monthly_Rent = tenant.Unit?.Monthly_Price ?? 0,
-                            Amount_Paid = 0,
+                            Amount_Paid = downPaymentApplied,
                             Payment_Date = today,
                             Due_Date = due
                         };
@@ -67,11 +75,15 @@ namespace CasaPuritaRMS.Controllers
                         _context.RentPayments.Add(payment);
                         await _context.SaveChangesAsync();
 
-                        payment.Receipt_Number = "RCPT-" + due.ToString("yyMMdd") + "-" + payment.Payment_ID;
+                        // Flag the receipt so it's obvious in the list/details
+                        // which charge already has the down payment credited.
+                        string prefix = downPaymentApplied > 0 ? "DP-" : "RCPT-";
+                        payment.Receipt_Number = prefix + due.ToString("yyMMdd") + "-" + payment.Payment_ID;
                         _context.Update(payment);
                         await _context.SaveChangesAsync();
 
                         created++;
+                        if (downPaymentApplied > 0) downPaymentsApplied++;
                     }
 
                     due = due.AddMonths(1);
@@ -79,7 +91,8 @@ namespace CasaPuritaRMS.Controllers
             }
 
             TempData["Success"] = created > 0
-                ? $"{created} due record(s) generated."
+                ? $"{created} due record(s) generated." +
+                  (downPaymentsApplied > 0 ? $" Down payment applied for {downPaymentsApplied} tenant(s)." : "")
                 : "All active tenants already have dues up to this month.";
 
             return RedirectToAction(nameof(Index));
