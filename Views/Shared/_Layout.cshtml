@@ -49,21 +49,25 @@
                     </a>
                 </li>
 
-                
-                @* <li>
-                    <a asp-controller="Maintenance" asp-action="Index" title="Maintenance">
+                <li>
+                    <a asp-controller="Maintenance" asp-action="Index"
+                       class="@(ViewContext.RouteData.Values["controller"]?.ToString() == "Maintenance" ? "active" : "")"
+                       title="Maintenance">
                         <i class="bi bi-tools menu-icon"></i>
                         <span class="menu-text">Maintenance</span>
                     </a>
-                </li> *@
+                </li>
 
-                @* <li>
-                    <a asp-controller="Notification" asp-action="Index" title="Notifications">
+                <li>
+                    <a asp-controller="Notification" asp-action="Index"
+                       class="@(ViewContext.RouteData.Values["controller"]?.ToString() == "Notification" ? "active" : "")"
+                       title="Notifications">
                         <i class="bi bi-bell menu-icon"></i>
                         <span class="menu-text">Notifications</span>
                     </a>
-                </li> *@
+                </li>
 
+                @* Reports and Analytics are out of current scope. *@
                 @* <li>
                     <a asp-controller="Report" asp-action="Index" title="Reports">
                         <i class="bi bi-file-earmark-text menu-icon"></i>

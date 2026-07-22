@@ -16,7 +16,7 @@ namespace CasaPuritaRMS.Controllers
         // GET: Unit
         public async Task<IActionResult> Index()
         {
-            var units = await _context.Units.ToListAsync();
+            var units = await _context.Units.Include(u => u.Tenants).ToListAsync();
             return View(units);
         }
 

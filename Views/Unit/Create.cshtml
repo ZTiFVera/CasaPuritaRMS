@@ -37,6 +37,14 @@
                     <span asp-validation-for="Capacity" class="form-error"></span>
                 </div>
                 <div class="form-group">
+                    <label asp-for="Monthly_Price" class="form-label"></label>
+                    <input asp-for="Monthly_Price" class="form-control-custom" />
+                    <span asp-validation-for="Monthly_Price" class="form-error"></span>
+                </div>
+            </div>
+
+            <div class="form-grid">
+                <div class="form-group">
                     <label asp-for="Status" class="form-label"></label>
                     <select asp-for="Status" class="form-control-custom">
                         <option value="Available">Available</option>

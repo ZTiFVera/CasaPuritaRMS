@@ -6,15 +6,13 @@
     string statusClass = Model.Payment_Status switch
     {
         "Paid" => "badge-available",
-        "Partial" => "badge-partial",
-        "Overdue" => "badge-occupied",
+        "Late" => "badge-occupied",
         _ => "badge-maintenance"
     };
 }
 
 <div class="card-panel detail-card">
 
-    <!-- RECEIPT HEADER -->
     <div class="detail-header">
         <div class="detail-avatar detail-avatar-icon">
             <i class="bi bi-receipt"></i>
@@ -25,18 +23,20 @@
         </div>
     </div>
 
-    <!-- TENANT -->
     <div class="detail-section">
         <h6 class="detail-section-title">Tenant</h6>
         <div class="detail-grid">
-            <div class="detail-item detail-item-full">
+            <div class="detail-item">
                 <span class="detail-label">Name</span>
                 <span class="detail-value">@Model.Tenant?.First_Name @Model.Tenant?.Last_Name</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Unit</span>
+                <span class="detail-value">@Model.Tenant?.Unit?.Unit_Number</span>
             </div>
         </div>
     </div>
 
-    <!-- PAYMENT BREAKDOWN -->
     <div class="detail-section">
         <h6 class="detail-section-title">Payment Breakdown</h6>
         <div class="detail-grid">
@@ -45,16 +45,8 @@
                 <span class="detail-value">₱@Model.Monthly_Rent.ToString("N2")</span>
             </div>
             <div class="detail-item">
-                <span class="detail-label">Down Payment</span>
-                <span class="detail-value">₱@Model.Down_Payment.ToString("N2")</span>
-            </div>
-            <div class="detail-item">
                 <span class="detail-label">Amount Paid</span>
                 <span class="detail-value">₱@Model.Amount_Paid.ToString("N2")</span>
-            </div>
-            <div class="detail-item">
-                <span class="detail-label">Total Paid</span>
-                <span class="detail-value">₱@Model.Total_Paid.ToString("N2")</span>
             </div>
             <div class="detail-item">
                 <span class="detail-label">Balance</span>
@@ -67,7 +59,7 @@
                     <span class="badge-available">₱0.00</span>
                 }
             </div>
-            <div class="detail-item detail-item-full">
+            <div class="detail-item">
                 <span class="detail-label">Advance / Overpayment</span>
                 @if (Model.Advance_Credit > 0)
                 {
@@ -81,9 +73,8 @@
         </div>
     </div>
 
-    <!-- SCHEDULE -->
     <div class="detail-section">
-        <h6 class="detail-section-title">Payment Schedule</h6>
+        <h6 class="detail-section-title">Schedule</h6>
         <div class="detail-grid">
             <div class="detail-item">
                 <span class="detail-label">Payment Date</span>
@@ -96,13 +87,9 @@
         </div>
     </div>
 
-    <!-- ACTIONS -->
     <div class="detail-actions">
         <a asp-action="Index" class="btn btn-outline-secondary btn-sm">
             <i class="bi bi-arrow-left"></i> Back to List
-        </a>
-        <a asp-action="Edit" asp-route-id="@Model.Payment_ID" class="btn btn-primary btn-sm">
-            <i class="bi bi-pencil"></i> Edit Payment
         </a>
     </div>
 

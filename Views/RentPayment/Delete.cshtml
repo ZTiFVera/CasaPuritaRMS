@@ -6,15 +6,8 @@
     string statusClass = Model.Payment_Status switch
     {
         "Paid" => "badge-available",
-        "Overdue" => "badge-occupied",
+        "Late" => "badge-occupied",
         _ => "badge-no"
-    };
-
-    string statusLabel = Model.Payment_Status switch
-    {
-        "Paid" => "Paid",
-        "Overdue" => "Overdue",
-        _ => "Pending"
     };
 }
 
@@ -40,7 +33,7 @@
                 ₱@Model.Amount_Paid.ToString("N2") paid &middot; Due @Model.Due_Date.ToString("MMM dd, yyyy")
             </span>
         </div>
-        <span class="@statusClass delete-preview-badge">@statusLabel</span>
+        <span class="@statusClass delete-preview-badge">@Model.Payment_Status</span>
     </div>
 
     <form asp-action="Delete" method="post">

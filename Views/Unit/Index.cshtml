@@ -21,19 +21,20 @@
     <table class="table align-middle">
         <thead>
             <tr>
-                <th style="width:20%">Unit Number</th>
-                <th style="width:12%">Floor</th>
-                <th style="width:12%">Capacity</th>
-                <th style="width:18%">Status</th>
-                <th style="width:18%">Comfort Room</th>
-                <th style="width:20%" class="text-end">Actions</th>
+                <th style="width:16%">Unit Number</th>
+                <th style="width:10%">Floor</th>
+                <th style="width:10%">Capacity</th>
+                <th style="width:15%">Monthly Price</th>
+                <th style="width:15%">Status</th>
+                <th style="width:16%">Comfort Room</th>
+                <th style="width:18%" class="text-end">Actions</th>
             </tr>
         </thead>
         <tbody>
             @if (!Model.Any())
             {
                 <tr>
-                    <td colspan="6" class="text-center text-muted py-5">
+                    <td colspan="7" class="text-center text-muted py-5">
                         <i class="bi bi-door-open fs-3 d-block mb-2"></i>
                         No units found. Click "Add Unit" to create one.
                     </td>
@@ -45,6 +46,7 @@
                     <td>@unit.Unit_Number</td>
                     <td>@unit.Floor</td>
                     <td>@unit.Capacity</td>
+                    <td>₱@unit.Monthly_Price.ToString("N2")</td>
 
                     <td>
                         @if (unit.Status == "Available")

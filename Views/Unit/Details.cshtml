@@ -13,7 +13,6 @@
 
 <div class="card-panel detail-card">
 
-    <!-- UNIT HEADER -->
     <div class="detail-header">
         <div class="detail-avatar detail-avatar-icon">
             <i class="bi bi-door-open"></i>
@@ -24,7 +23,6 @@
         </div>
     </div>
 
-    <!-- UNIT INFORMATION -->
     <div class="detail-section">
         <h6 class="detail-section-title">Unit Information</h6>
         <div class="detail-grid">
@@ -36,7 +34,11 @@
                 <span class="detail-label">Capacity</span>
                 <span class="detail-value">@Model.Capacity</span>
             </div>
-            <div class="detail-item detail-item-full">
+            <div class="detail-item">
+                <span class="detail-label">Monthly Price</span>
+                <span class="detail-value">₱@Model.Monthly_Price.ToString("N2")</span>
+            </div>
+            <div class="detail-item">
                 <span class="detail-label">Comfort Room</span>
                 @if (Model.Comfort_Room)
                 {
@@ -50,7 +52,6 @@
         </div>
     </div>
 
-    <!-- ACTIONS -->
     <div class="detail-actions">
         <a asp-action="Index" class="btn btn-outline-secondary btn-sm">
             <i class="bi bi-arrow-left"></i> Back to List

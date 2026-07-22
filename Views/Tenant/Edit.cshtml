@@ -8,7 +8,7 @@
 
     <div class="form-header">
         <h6>Edit Tenant</h6>
-        <p class="form-subtitle">Update tenant profile and contact information</p>
+        <p class="form-subtitle">Update tenant profile, unit, and tenancy details</p>
     </div>
 
     <form asp-action="Edit" method="post">
@@ -68,16 +68,47 @@
             </div>
         </div>
 
-        <!-- STATUS -->
+        <!-- TENANCY -->
         <div class="form-section">
-            <h6 class="form-section-title">Status</h6>
+            <h6 class="form-section-title">Tenancy</h6>
 
-            <div class="form-group form-group-full">
-                <label asp-for="Occupancy_Status" class="form-label"></label>
-                <select asp-for="Occupancy_Status" class="form-control-custom">
-                    <option value="Active">Active</option>
-                    <option value="Inactive">Inactive</option>
-                </select>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label asp-for="Unit_ID" class="form-label">Assigned Unit</label>
+                    <select asp-for="Unit_ID" class="form-control-custom" asp-items="ViewBag.Unit_ID">
+                        <option value="">-- Select Unit --</option>
+                    </select>
+                    <span asp-validation-for="Unit_ID" class="form-error"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Move_In_Date" class="form-label"></label>
+                    <input asp-for="Move_In_Date" type="date" class="form-control-custom" />
+                    <span asp-validation-for="Move_In_Date" class="form-error"></span>
+                </div>
+            </div>
+
+            <div class="form-grid">
+             
+                <div class="form-group">
+                    <label asp-for="Contract_Term_Months" class="form-label"></label>
+                    <input asp-for="Contract_Term_Months" class="form-control-custom" />
+                    <span asp-validation-for="Contract_Term_Months" class="form-error"></span>
+                </div>
+            </div>
+
+            <div class="form-grid">
+                <div class="form-group">
+                    <label asp-for="Down_Payment" class="form-label"></label>
+                    <input asp-for="Down_Payment" class="form-control-custom" />
+                    <span asp-validation-for="Down_Payment" class="form-error"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Occupancy_Status" class="form-label"></label>
+                    <select asp-for="Occupancy_Status" class="form-control-custom">
+                        <option value="Active">Active</option>
+                        <option value="Inactive">Inactive</option>
+                    </select>
+                </div>
             </div>
         </div>
 
@@ -90,3 +121,9 @@
         </div>
     </form>
 </div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

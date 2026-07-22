@@ -1,64 +1,134 @@
 @model CasaPuritaRMS.Models.Tenant
 
 @{
-    ViewData["Title"] = "Tenant Details";
+    ViewData["Title"] = "Tenant Profile";
     string initials = $"{Model.First_Name?.Substring(0, 1)}{Model.Last_Name?.Substring(0, 1)}".ToUpper();
     string statusClass = Model.Occupancy_Status == "Active" ? "badge-available" : "badge-occupied";
 }
 
-<div class="card-panel detail-card">
+<div class="profile-header-card">
+    <div class="detail-avatar">@initials</div>
+    <div class="profile-header-info">
+        <h5>@Model.First_Name @Model.Last_Name <span class="@statusClass">@Model.Occupancy_Status</span></h5>
+        <p>Tenant at @Model.Address@(Model.Unit != null ? ", Unit " + Model.Unit.Unit_Number : "")</p>
+    </div>
+    <div class="profile-header-actions">
+        <a asp-action="Edit" asp-route-id="@Model.Tenant_ID" class="btn btn-outline-secondary btn-sm">
+            <i class="bi bi-pencil"></i> Edit
+        </a>
+        <a asp-action="Delete" asp-route-id="@Model.Tenant_ID" class="btn btn-outline-danger btn-sm">
+            <i class="bi bi-trash"></i> Delete
+        </a>
+    </div>
+</div>
 
-    <!-- PROFILE HEADER -->
-    <div class="detail-header">
-        <div class="detail-avatar">@initials</div>
-        <div class="detail-header-info">
-            <h5>@Model.First_Name @Model.Last_Name</h5>
-            <span class="@statusClass">@Model.Occupancy_Status</span>
+<div class="profile-grid">
+
+    <!-- GENERAL INFO -->
+    <div class="profile-card">
+        <div class="profile-card-head">
+            <h6>General Info</h6>
+        </div>
+        <div class="profile-rows">
+            <div class="profile-row">
+                <span class="profile-key">First Name</span>
+                <span class="profile-val">@Model.First_Name</span>
+            </div>
+            <div class="profile-row">
+                <span class="profile-key">Last Name</span>
+                <span class="profile-val">@Model.Last_Name</span>
+            </div>
+            <div class="profile-row">
+                <span class="profile-key">Email</span>
+                <span class="profile-val">@Model.Email</span>
+            </div>
+            <div class="profile-row">
+                <span class="profile-key">Phone</span>
+                <span class="profile-val">@Model.Contact_Number</span>
+            </div>
+            <div class="profile-row">
+                <span class="profile-key">Address</span>
+                <span class="profile-val">@Model.Address</span>
+            </div>
         </div>
     </div>
 
-    <!-- CONTACT INFORMATION -->
-    <div class="detail-section">
-        <h6 class="detail-section-title">Contact Information</h6>
-        <div class="detail-grid">
-            <div class="detail-item">
-                <span class="detail-label">Email</span>
-                <span class="detail-value">@Model.Email</span>
+    <!-- LEASE DETAILS -->
+    <div class="profile-card">
+        <div class="profile-card-head">
+            <h6>Lease Details</h6>
+        </div>
+        <div class="profile-rows">
+            <div class="profile-row">
+                <span class="profile-key">Move-In Date</span>
+                <span class="profile-val">@Model.Move_In_Date.ToString("MM/dd/yyyy")</span>
             </div>
-            <div class="detail-item">
-                <span class="detail-label">Contact Number</span>
-                <span class="detail-value">@Model.Contact_Number</span>
+            <div class="profile-row">
+                <span class="profile-key">Contract End Date</span>
+                <span class="profile-val">@Model.Contract_End_Date.ToString("MM/dd/yyyy")</span>
             </div>
-            <div class="detail-item detail-item-full">
-                <span class="detail-label">Address</span>
-                <span class="detail-value">@Model.Address</span>
+            <div class="profile-row">
+                <span class="profile-key">Contract Term</span>
+                <span class="profile-val">@Model.Contract_Term_Months months</span>
+            </div>
+            <div class="profile-row">
+                <span class="profile-key">Next Due Date</span>
+                <span class="profile-val">@Model.Next_Due_Date.ToString("MM/dd/yyyy")</span>
+            </div>
+ 
+            <div class="profile-row">
+                <span class="profile-key">Down Payment</span>
+                <span class="profile-val">₱@Model.Down_Payment.ToString("N2")</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- UNIT DETAILS -->
+    <div class="profile-card">
+        <div class="profile-card-head">
+            <h6>Unit Details</h6>
+        </div>
+        <div class="profile-rows">
+            <div class="profile-row">
+                <span class="profile-key">Unit Number</span>
+                <span class="profile-val">@(Model.Unit != null ? Model.Unit.Unit_Number : "Unassigned")</span>
+            </div>
+            <div class="profile-row">
+                <span class="profile-key">Monthly Rent</span>
+                <span class="profile-val">@(Model.Unit != null ? "₱" + Model.Unit.Monthly_Price.ToString("N2") : "-")</span>
+            </div>
+            <div class="profile-row">
+                <span class="profile-key">Floor</span>
+                <span class="profile-val">@(Model.Unit != null ? Model.Unit.Floor.ToString() : "-")</span>
+            </div>
+            <div class="profile-row">
+                <span class="profile-key">Comfort Room</span>
+                <span class="profile-val">@(Model.Unit != null && Model.Unit.Comfort_Room ? "With CR" : "Without CR")</span>
             </div>
         </div>
     </div>
 
     <!-- EMERGENCY CONTACT -->
-    <div class="detail-section">
-        <h6 class="detail-section-title">Emergency Contact</h6>
-        <div class="detail-grid">
-            <div class="detail-item">
-                <span class="detail-label">Name</span>
-                <span class="detail-value">@Model.Emergency_Contact_Name</span>
+    <div class="profile-card">
+        <div class="profile-card-head">
+            <h6>Emergency Contact</h6>
+        </div>
+        <div class="profile-rows">
+            <div class="profile-row">
+                <span class="profile-key">Name</span>
+                <span class="profile-val">@Model.Emergency_Contact_Name</span>
             </div>
-            <div class="detail-item">
-                <span class="detail-label">Contact Number</span>
-                <span class="detail-value">@Model.Emergency_Contact_Number</span>
+            <div class="profile-row">
+                <span class="profile-key">Contact Number</span>
+                <span class="profile-val">@Model.Emergency_Contact_Number</span>
             </div>
         </div>
     </div>
 
-    <!-- ACTIONS -->
-    <div class="detail-actions">
-        <a asp-action="Index" class="btn btn-outline-secondary btn-sm">
-            <i class="bi bi-arrow-left"></i> Back to List
-        </a>
-        <a asp-action="Edit" asp-route-id="@Model.Tenant_ID" class="btn btn-primary btn-sm">
-            <i class="bi bi-pencil"></i> Edit Tenant
-        </a>
-    </div>
+</div>
 
+<div class="profile-back">
+    <a asp-action="Index" class="btn btn-outline-secondary btn-sm">
+        <i class="bi bi-arrow-left"></i> Back to Tenants
+    </a>
 </div>

@@ -1,0 +1,56 @@
+﻿@model CasaPuritaRMS.Models.Tenant
+
+<form id="tenantForm" asp-action="Save" method="post">
+    <input type="hidden" asp-for="Tenant_ID" />
+    <div asp-validation-summary="ModelOnly" class="form-error-summary"></div>
+
+    <div class="form-grid">
+        <div class="form-group">
+            <label asp-for="First_Name" class="form-label"></label>
+            <input asp-for="First_Name" class="form-control-custom" />
+            <span asp-validation-for="First_Name" class="form-error"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Last_Name" class="form-label"></label>
+            <input asp-for="Last_Name" class="form-control-custom" />
+            <span asp-validation-for="Last_Name" class="form-error"></span>
+        </div>
+    </div>
+
+    <div class="form-grid">
+        <div class="form-group">
+            <label asp-for="Email" class="form-label"></label>
+            <input asp-for="Email" class="form-control-custom" />
+        </div>
+        <div class="form-group">
+            <label asp-for="Contact_Number" class="form-label"></label>
+            <input asp-for="Contact_Number" class="form-control-custom" />
+        </div>
+    </div>
+
+    <div class="form-group form-group-full">
+        <label asp-for="Address" class="form-label"></label>
+        <input asp-for="Address" class="form-control-custom" />
+    </div>
+
+    <div class="form-grid">
+        <div class="form-group">
+            <label asp-for="Unit_ID" class="form-label">Assigned Unit</label>
+            <select asp-for="Unit_ID" class="form-control-custom" asp-items="ViewBag.Unit_ID">
+                <option value="">-- Select Unit --</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label asp-for="Move_In_Date" class="form-label"></label>
+            <input asp-for="Move_In_Date" type="date" class="form-control-custom" />
+        </div>
+    </div>
+
+    <div class="form-grid">
+       
+        <div class="form-group">
+            <label asp-for="Contract_Term_Months" class="form-label"></label>
+            <input asp-for="Contract_Term_Months" class="form-control-custom" />
+        </div>
+    </div>
+</form>

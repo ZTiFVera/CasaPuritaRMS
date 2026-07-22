@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CasaPuritaRMS.Models
 {
@@ -24,7 +25,11 @@ namespace CasaPuritaRMS.Models
         [Range(1, 20, ErrorMessage = "Capacity must be between 1 and 20.")]
         public int Capacity { get; set; } = 1;
 
-
+        [Required(ErrorMessage = "Monthly price is required.")]
+        [Column(TypeName = "decimal(10,2)")]
+        [Range(0, 999999.99, ErrorMessage = "Price must be between 0 and 999,999.99.")]
+        [Display(Name = "Monthly Price")]
+        public decimal Monthly_Price { get; set; }
 
         [Display(Name = "Comfort Room (CR)")]
         public bool Comfort_Room { get; set; } = false;

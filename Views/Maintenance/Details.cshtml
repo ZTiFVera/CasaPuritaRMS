@@ -1,0 +1,64 @@
+@model CasaPuritaRMS.Models.MaintenanceRequest
+
+@{
+    ViewData["Title"] = "Maintenance Request Details";
+
+    string statusClass = Model.Status switch
+    {
+        "Resolved" => "badge-available",
+        "In Progress" => "badge-partial",
+        _ => "badge-occupied"
+    };
+}
+
+<div class="card-panel detail-card">
+
+    <div class="detail-header">
+        <div class="detail-avatar detail-avatar-icon">
+            <i class="bi bi-tools"></i>
+        </div>
+        <div class="detail-header-info">
+            <h5>@Model.Title</h5>
+            <span class="@statusClass">@Model.Status</span>
+        </div>
+    </div>
+
+    <div class="detail-section">
+        <h6 class="detail-section-title">Request Information</h6>
+        <div class="detail-grid">
+            <div class="detail-item">
+                <span class="detail-label">Tenant</span>
+                <span class="detail-value">@Model.Tenant?.First_Name @Model.Tenant?.Last_Name</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Date Submitted</span>
+                <span class="detail-value">@Model.Date_Submitted.ToString("MMM dd, yyyy")</span>
+            </div>
+            <div class="detail-item detail-item-full">
+                <span class="detail-label">Description</span>
+                <span class="detail-value">@Model.Description</span>
+            </div>
+            <div class="detail-item detail-item-full">
+                <span class="detail-label">Attachment</span>
+                @if (!string.IsNullOrEmpty(Model.Attachment_Path))
+                {
+                    <a href="@Model.Attachment_Path" target="_blank" class="detail-value">View Attachment</a>
+                }
+                else
+                {
+                    <span class="badge-no">None</span>
+                }
+            </div>
+        </div>
+    </div>
+
+    <div class="detail-actions">
+        <a asp-action="Index" class="btn btn-outline-secondary btn-sm">
+            <i class="bi bi-arrow-left"></i> Back to List
+        </a>
+        <a asp-action="Edit" asp-route-id="@Model.Request_ID" class="btn btn-primary btn-sm">
+            <i class="bi bi-pencil"></i> Update Request
+        </a>
+    </div>
+
+</div>

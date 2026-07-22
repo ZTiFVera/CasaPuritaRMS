@@ -1,16 +1,45 @@
 @model IEnumerable<CasaPuritaRMS.Models.RentPayment>
 
 @{
-    ViewData["Title"] = "Rent Payments";
+    ViewData["Title"] = "Rent & Charges";
+
+    var list = Model.ToList();
+    decimal totalPaid = list.Sum(p => p.Total_Paid);
+    decimal totalDue = list.Where(p => p.Payment_Status == "Due").Sum(p => p.Balance);
+    decimal totalLate = list.Where(p => p.Payment_Status == "Late").Sum(p => p.Balance);
+    decimal grandTotal = list.Sum(p => p.Monthly_Rent);
+    int paidPct = grandTotal > 0 ? (int)(totalPaid * 100 / grandTotal) : 0;
+    int latePct = grandTotal > 0 ? (int)(totalLate * 100 / grandTotal) : 0;
 }
+
+<div class="rent-summary-grid">
+    <div class="summary-card">
+        <div class="summary-icon"><i class="bi bi-cash-stack"></i></div>
+        <span class="summary-label">Paid</span>
+        <span class="summary-value text-green">₱@totalPaid.ToString("N2")</span>
+    </div>
+    <div class="summary-card">
+        <div class="summary-icon"><i class="bi bi-calendar"></i></div>
+        <span class="summary-label">Due</span>
+        <span class="summary-value">₱@totalDue.ToString("N2")</span>
+    </div>
+    <div class="summary-card">
+        <div class="summary-icon"><i class="bi bi-calendar-x"></i></div>
+        <span class="summary-label">Late</span>
+        <span class="summary-value text-red">₱@totalLate.ToString("N2")</span>
+    </div>
+</div>
 
 <div class="card-panel">
 
     <div class="card-panel-header">
-        <h6>Rent Payment List</h6>
-        <a asp-action="Create" class="btn btn-sm btn-primary">
-            <i class="bi bi-plus-lg"></i> Add Payment
-        </a>
+        <h6>Rent &amp; Charges</h6>
+        <form asp-action="GenerateDues" method="post" class="m-0">
+            @Html.AntiForgeryToken()
+            <button type="submit" class="btn btn-sm btn-primary">
+                <i class="bi bi-arrow-repeat"></i> Generate Dues
+            </button>
+        </form>
     </div>
 
     @if (TempData["Success"] != null)
@@ -18,88 +47,80 @@
         <div class="alert alert-success py-2 mx-4 mt-3">@TempData["Success"]</div>
     }
 
-    <table class="table align-middle">
+    <div class="collection-bar-wrap">
+        <div class="collection-head">
+            <span>Collection Progress</span>
+            <span>₱@totalPaid.ToString("N2") of ₱@grandTotal.ToString("N2")</span>
+        </div>
+        <div class="collection-bar">
+            <div class="collection-seg seg-paid" style="width:@(paidPct)%"></div>
+            <div class="collection-seg seg-overdue" style="width:@(latePct)%"></div>
+        </div>
+        <div class="collection-legend">
+            <span><i class="dot dot-paid"></i> Paid</span>
+            <span><i class="dot dot-pending"></i> Due</span>
+            <span><i class="dot dot-overdue"></i> Late</span>
+        </div>
+    </div>
+
+    <table class="table align-middle" id="rentTable">
         <thead>
             <tr>
-                <th style="width:13%">Tenant</th>
-                <th style="width:10%">Monthly Rent</th>
-                <th style="width:10%">Down Payment</th>
-                <th style="width:10%">Amount Paid</th>
-                <th style="width:9%">Amount Due</th>
-                <th style="width:11%">Advance Payment</th>
-                <th style="width:9%">Payment Date</th>
-                <th style="width:9%">Due Date</th>
-                <th style="width:8%">Status</th>
-                <th style="width:11%" class="text-end">Actions</th>
+                <th style="width:15%">Amount Due</th>
+                <th style="width:15%">Amount Paid</th>
+                <th style="width:12%">Unit</th>
+                <th style="width:20%">Tenant</th>
+                <th style="width:16%">
+                    Due Date
+                    <span class="th-filter" id="dueFilterToggle"><i class="bi bi-funnel"></i></span>
+                </th>
+                <th style="width:12%">
+                    Status
+                    <span class="th-filter" id="statusFilterToggle"><i class="bi bi-funnel"></i></span>
+                </th>
+                <th style="width:10%" class="text-end">Actions</th>
             </tr>
         </thead>
-        <tbody>
-            @if (!Model.Any())
+        <tbody id="rentBody">
+            @if (!list.Any())
             {
                 <tr>
-                    <td colspan="10" class="text-center text-muted py-5">
+                    <td colspan="7" class="text-center text-muted py-5">
                         <i class="bi bi-cash-coin fs-3 d-block mb-2"></i>
-                        No rent payments recorded yet.
+                        No dues yet. Click "Generate Dues" to create them.
                     </td>
                 </tr>
             }
-            @foreach (var item in Model)
+            @foreach (var item in list)
             {
-                <tr>
+                <tr class="pay-row" data-status="@item.Payment_Status" data-due="@item.Due_Date.ToString("yyyy-MM-dd")" data-name="@item.Tenant?.Last_Name">
+                    <td class="@(item.Balance > 0 ? "text-red" : "")">₱@item.Balance.ToString("N2")</td>
+                    <td class="text-muted">₱@item.Amount_Paid.ToString("N2")</td>
+                    <td>@item.Tenant?.Unit?.Unit_Number</td>
                     <td>@item.Tenant?.First_Name @item.Tenant?.Last_Name</td>
-                    <td>₱@item.Monthly_Rent.ToString("N2")</td>
-                    <td>₱@item.Down_Payment.ToString("N2")</td>
-                    <td>₱@item.Amount_Paid.ToString("N2")</td>
-                    <td>
-                        @if (item.Balance > 0)
-                        {
-                            <span class="badge-occupied">₱@item.Balance.ToString("N2")</span>
-                        }
-                        else
-                        {
-                            <span class="badge-available">₱0.00</span>
-                        }
-                    </td>
-                    <td>
-                        @if (item.Advance_Credit > 0)
-                        {
-                            <span class="badge-yes">₱@item.Advance_Credit.ToString("N2")</span>
-                        }
-                        else
-                        {
-                            <span class="badge-no">₱0.00</span>
-                        }
-                    </td>
-                    <td>@item.Payment_Date.ToString("MMM dd, yyyy")</td>
-                    <td>@item.Due_Date.ToString("MMM dd, yyyy")</td>
+                    <td>@item.Due_Date.ToString("MM/dd/yyyy")</td>
                     <td>
                         @switch (item.Payment_Status)
                         {
                             case "Paid":
                                 <span class="badge-available">Paid</span>
                                 break;
-                            case "Partial":
-                                <span class="badge-partial">Partial</span>
-                                break;
-                            case "Overdue":
-                                <span class="badge-occupied">Overdue</span>
+                            case "Late":
+                                <span class="badge-occupied">Late</span>
                                 break;
                             default:
-                                <span class="badge-maintenance">Pending</span>
+                                <span class="badge-maintenance">Due</span>
                                 break;
                         }
                     </td>
                     <td class="text-end">
-                        <div class="btn-group btn-group-sm" role="group">
-                            <a asp-action="Edit" asp-route-id="@item.Payment_ID" class="btn btn-outline-secondary" title="Edit">
-                                <i class="bi bi-pencil"></i>
-                            </a>
-                            <a asp-action="Details" asp-route-id="@item.Payment_ID" class="btn btn-outline-secondary" title="View">
-                                <i class="bi bi-eye"></i>
-                            </a>
-                            <a asp-action="Delete" asp-route-id="@item.Payment_ID" class="btn btn-outline-danger" title="Delete">
-                                <i class="bi bi-trash"></i>
-                            </a>
+                        <div class="row-menu">
+                            <button type="button" class="menu-dots" title="Actions"><i class="bi bi-three-dots-vertical"></i></button>
+                            <div class="menu-dropdown">
+                                <button type="button" class="menu-item btn-pay" data-id="@item.Payment_ID">Add Payment Received</button>
+                                <a class="menu-item" asp-action="Details" asp-route-id="@item.Payment_ID">View Details</a>
+                                <a class="menu-item menu-danger" asp-action="Delete" asp-route-id="@item.Payment_ID">Delete Charge</a>
+                            </div>
                         </div>
                     </td>
                 </tr>
@@ -107,3 +128,203 @@
         </tbody>
     </table>
 </div>
+
+<!-- STATUS FILTER POPOVER -->
+<div class="filter-pop" id="statusFilterPop">
+    <div class="filter-pop-head">
+        <span>Filter Status</span>
+        <button type="button" class="filter-pop-close" data-close>&times;</button>
+    </div>
+    <select id="statusFilterSelect" class="form-control-custom">
+        <option value="all">Select status</option>
+        <option value="Paid">Paid</option>
+        <option value="Late">Late</option>
+        <option value="Due">Due</option>
+    </select>
+    <div class="filter-pop-sub">Sort by</div>
+    <label class="filter-radio"><input type="radio" name="statusSort" value="az"> A to Z</label>
+    <label class="filter-radio"><input type="radio" name="statusSort" value="za"> Z to A</label>
+    <div class="filter-pop-actions">
+        <button type="button" class="btn btn-outline-secondary btn-sm" id="statusClear">Clear</button>
+        <button type="button" class="btn btn-primary btn-sm" id="statusApply">Apply</button>
+    </div>
+</div>
+
+<!-- DUE DATE FILTER POPOVER -->
+<div class="filter-pop" id="dueFilterPop">
+    <div class="filter-pop-head">
+        <span>Filter Due Date</span>
+        <button type="button" class="filter-pop-close" data-close>&times;</button>
+    </div>
+    <label class="form-label">From</label>
+    <input type="date" id="dueFrom" class="form-control-custom" />
+    <label class="form-label" style="margin-top:8px;">To</label>
+    <input type="date" id="dueTo" class="form-control-custom" />
+    <div class="filter-pop-sub">Sort by</div>
+    <label class="filter-radio"><input type="radio" name="dueSort" value="old"> Oldest first</label>
+    <label class="filter-radio"><input type="radio" name="dueSort" value="new"> Newest first</label>
+    <div class="filter-pop-actions">
+        <button type="button" class="btn btn-outline-secondary btn-sm" id="dueClear">Clear</button>
+        <button type="button" class="btn btn-primary btn-sm" id="dueApply">Apply</button>
+    </div>
+</div>
+
+<!-- ADD PAYMENT MODAL -->
+<div class="modal fade" id="payModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title">Add Payment</h6>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body" id="payModalBody"></div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary btn-sm" id="btnAddPayment">Add Payment</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        const payModal = new bootstrap.Modal(document.getElementById('payModal'));
+        const rentBody = document.getElementById('rentBody');
+
+        // ---- Add Payment modal (AJAX) ----
+        document.addEventListener('click', function(e) {
+            const payBtn = e.target.closest('.btn-pay');
+            if (!payBtn) return;
+            fetch('/RentPayment/PaymentModal/' + payBtn.dataset.id)
+                .then(r => r.text())
+                .then(html => {
+                    document.getElementById('payModalBody').innerHTML = html;
+                    payModal.show();
+                });
+        });
+
+        document.getElementById('btnAddPayment').addEventListener('click', function() {
+            const form = document.getElementById('recordPaymentForm');
+            if (!form) return;
+            fetch('/RentPayment/RecordPayment', { method: 'POST', body: new FormData(form) })
+                .then(r => r.json())
+                .then(res => { if (res.success) { payModal.hide(); location.reload(); } });
+        });
+
+        // ---- 3-dot row menus ----
+        document.querySelectorAll('.menu-dots').forEach(function(btn) {
+            btn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                const dd = this.nextElementSibling;
+                document.querySelectorAll('.menu-dropdown.show').forEach(d => { if (d !== dd) d.classList.remove('show'); });
+                dd.classList.toggle('show');
+            });
+        });
+
+        // ---- Filter popovers ----
+        const statusPop = document.getElementById('statusFilterPop');
+        const duePop = document.getElementById('dueFilterPop');
+
+        function placePop(pop, toggle) {
+            const r = toggle.getBoundingClientRect();
+            pop.style.top = (window.scrollY + r.bottom + 6) + 'px';
+            pop.style.left = (window.scrollX + r.left - 220) + 'px';
+        }
+
+        document.getElementById('statusFilterToggle').addEventListener('click', function(e) {
+            e.stopPropagation();
+            duePop.classList.remove('show');
+            placePop(statusPop, this);
+            statusPop.classList.toggle('show');
+        });
+
+        document.getElementById('dueFilterToggle').addEventListener('click', function(e) {
+            e.stopPropagation();
+            statusPop.classList.remove('show');
+            placePop(duePop, this);
+            duePop.classList.toggle('show');
+        });
+
+        document.querySelectorAll('.filter-pop-close').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                this.closest('.filter-pop').classList.remove('show');
+            });
+        });
+
+        document.querySelectorAll('.filter-pop').forEach(function(pop) {
+            pop.addEventListener('click', e => e.stopPropagation());
+        });
+
+        document.addEventListener('click', function() {
+            document.querySelectorAll('.menu-dropdown.show').forEach(d => d.classList.remove('show'));
+            statusPop.classList.remove('show');
+            duePop.classList.remove('show');
+        });
+
+        function getRows() {
+            return Array.from(rentBody.querySelectorAll('.pay-row'));
+        }
+
+        // ---- Apply STATUS filter and sort ----
+        document.getElementById('statusApply').addEventListener('click', function() {
+            const value = document.getElementById('statusFilterSelect').value;
+            const sort = document.querySelector('input[name="statusSort"]:checked');
+
+            const rows = getRows();
+            rows.forEach(function(row) {
+                row.style.display = (value === 'all' || row.dataset.status === value) ? '' : 'none';
+            });
+
+            if (sort) {
+                rows.sort(function(a, b) {
+                    const an = (a.dataset.name || '').toLowerCase();
+                    const bn = (b.dataset.name || '').toLowerCase();
+                    return sort.value === 'az' ? an.localeCompare(bn) : bn.localeCompare(an);
+                });
+                rows.forEach(r => rentBody.appendChild(r));
+            }
+            statusPop.classList.remove('show');
+        });
+
+        document.getElementById('statusClear').addEventListener('click', function() {
+            document.getElementById('statusFilterSelect').value = 'all';
+            document.querySelectorAll('input[name="statusSort"]').forEach(r => r.checked = false);
+            getRows().forEach(row => row.style.display = '');
+            statusPop.classList.remove('show');
+        });
+
+        // ---- Apply DUE DATE filter and sort ----
+        document.getElementById('dueApply').addEventListener('click', function() {
+            const from = document.getElementById('dueFrom').value;
+            const to = document.getElementById('dueTo').value;
+            const sort = document.querySelector('input[name="dueSort"]:checked');
+
+            const rows = getRows();
+            rows.forEach(function(row) {
+                const due = row.dataset.due;
+                let show = true;
+                if (from && due < from) show = false;
+                if (to && due > to) show = false;
+                row.style.display = show ? '' : 'none';
+            });
+
+            if (sort) {
+                rows.sort(function(a, b) {
+                    return sort.value === 'old'
+                        ? a.dataset.due.localeCompare(b.dataset.due)
+                        : b.dataset.due.localeCompare(a.dataset.due);
+                });
+                rows.forEach(r => rentBody.appendChild(r));
+            }
+            duePop.classList.remove('show');
+        });
+
+        document.getElementById('dueClear').addEventListener('click', function() {
+            document.getElementById('dueFrom').value = '';
+            document.getElementById('dueTo').value = '';
+            document.querySelectorAll('input[name="dueSort"]').forEach(r => r.checked = false);
+            getRows().forEach(row => row.style.display = '');
+            duePop.classList.remove('show');
+        });
+    </script>
+}

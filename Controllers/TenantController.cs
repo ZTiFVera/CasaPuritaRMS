@@ -14,12 +14,30 @@ namespace CasaPuritaRMS.Controllers
             _context = context;
         }
 
+        private void LoadUnitDropdown(int? selectedId = null)
+        {
+            var units = _context.Units
+                .Select(u => new { u.Unit_ID, Label = u.Unit_Number + " - P" + u.Monthly_Price })
+                .ToList();
+            ViewData["Unit_ID"] = new SelectList(units, "Unit_ID", "Label", selectedId);
+        }
+
+        private async Task RefreshUnitStatus(int? unitId)
+        {
+            if (unitId == null) return;
+            var unit = await _context.Units.Include(u => u.Tenants)
+                .FirstOrDefaultAsync(u => u.Unit_ID == unitId);
+            if (unit == null || unit.Status == "Maintenance") return;
+
+            int active = unit.Tenants?.Count(t => t.Occupancy_Status == "Active") ?? 0;
+            unit.Status = active >= unit.Capacity ? "Occupied" : "Available";
+            await _context.SaveChangesAsync();
+        }
+
         // GET: Tenant
         public async Task<IActionResult> Index()
         {
-            var tenants = await _context.Tenants
-                .Include(t => t.Unit)
-                .ToListAsync();
+            var tenants = await _context.Tenants.Include(t => t.Unit).ToListAsync();
             return View(tenants);
         }
 
@@ -27,11 +45,8 @@ namespace CasaPuritaRMS.Controllers
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null) return NotFound();
-
-            var tenant = await _context.Tenants
-                .Include(t => t.Unit)
+            var tenant = await _context.Tenants.Include(t => t.Unit)
                 .FirstOrDefaultAsync(t => t.Tenant_ID == id);
-
             if (tenant == null) return NotFound();
             return View(tenant);
         }
@@ -39,7 +54,7 @@ namespace CasaPuritaRMS.Controllers
         // GET: Tenant/Create
         public IActionResult Create()
         {
-            ViewData["Unit_ID"] = new SelectList(_context.Units, "Unit_ID", "Unit_Number");
+            LoadUnitDropdown();
             return View();
         }
 
@@ -52,11 +67,11 @@ namespace CasaPuritaRMS.Controllers
             {
                 _context.Tenants.Add(tenant);
                 await _context.SaveChangesAsync();
+                await RefreshUnitStatus(tenant.Unit_ID);
                 TempData["Success"] = "Tenant added successfully!";
                 return RedirectToAction(nameof(Index));
             }
-
-            ViewData["Unit_ID"] = new SelectList(_context.Units, "Unit_ID", "Unit_Number");
+            LoadUnitDropdown(tenant.Unit_ID);
             return View(tenant);
         }
 
@@ -64,11 +79,9 @@ namespace CasaPuritaRMS.Controllers
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null) return NotFound();
-
             var tenant = await _context.Tenants.FindAsync(id);
             if (tenant == null) return NotFound();
-
-            ViewData["Unit_ID"] = new SelectList(_context.Units, "Unit_ID", "Unit_Number");
+            LoadUnitDropdown(tenant.Unit_ID);
             return View(tenant);
         }
 
@@ -81,23 +94,25 @@ namespace CasaPuritaRMS.Controllers
 
             if (ModelState.IsValid)
             {
+                int? prevUnit = await _context.Tenants.Where(t => t.Tenant_ID == id)
+                    .Select(t => t.Unit_ID).FirstOrDefaultAsync();
                 try
                 {
                     _context.Update(tenant);
                     await _context.SaveChangesAsync();
+                    await RefreshUnitStatus(tenant.Unit_ID);
+                    if (prevUnit != tenant.Unit_ID) await RefreshUnitStatus(prevUnit);
                     TempData["Success"] = "Tenant updated successfully!";
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!await TenantExists(tenant.Tenant_ID))
+                    if (!await _context.Tenants.AnyAsync(e => e.Tenant_ID == tenant.Tenant_ID))
                         return NotFound();
-                    else
-                        throw;
+                    throw;
                 }
                 return RedirectToAction(nameof(Index));
             }
-
-            ViewData["Unit_ID"] = new SelectList(_context.Units, "Unit_ID", "Unit_Number");
+            LoadUnitDropdown(tenant.Unit_ID);
             return View(tenant);
         }
 
@@ -105,11 +120,8 @@ namespace CasaPuritaRMS.Controllers
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null) return NotFound();
-
-            var tenant = await _context.Tenants
-                .Include(t => t.Unit)
+            var tenant = await _context.Tenants.Include(t => t.Unit)
                 .FirstOrDefaultAsync(t => t.Tenant_ID == id);
-
             if (tenant == null) return NotFound();
             return View(tenant);
         }
@@ -122,18 +134,13 @@ namespace CasaPuritaRMS.Controllers
             var tenant = await _context.Tenants.FindAsync(id);
             if (tenant != null)
             {
+                int? unitId = tenant.Unit_ID;
                 _context.Tenants.Remove(tenant);
                 await _context.SaveChangesAsync();
+                await RefreshUnitStatus(unitId);
                 TempData["Success"] = "Tenant deleted successfully!";
             }
             return RedirectToAction(nameof(Index));
         }
-
-        private async Task<bool> TenantExists(int id)
-        {
-            return await _context.Tenants.AnyAsync(e => e.Tenant_ID == id);
-        }
     }
 }
-
-

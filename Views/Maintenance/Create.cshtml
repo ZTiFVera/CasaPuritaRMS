@@ -1,0 +1,59 @@
+@model CasaPuritaRMS.Models.MaintenanceRequest
+
+@{
+    ViewData["Title"] = "New Maintenance Request";
+}
+
+<div class="card-panel form-card">
+
+    <div class="form-header">
+        <h6>New Maintenance Request</h6>
+        <p class="form-subtitle">Submit a maintenance issue with an optional photo</p>
+    </div>
+
+    <form asp-action="Create" method="post" enctype="multipart/form-data">
+        <div asp-validation-summary="ModelOnly" class="form-error-summary"></div>
+
+        <div class="form-section">
+            <h6 class="form-section-title">Request Details</h6>
+
+            <div class="form-group form-group-full">
+                <label asp-for="Tenant_ID" class="form-label">Tenant</label>
+                <select asp-for="Tenant_ID" class="form-control-custom" asp-items="ViewBag.Tenant_ID">
+                    <option value="">-- Select Tenant --</option>
+                </select>
+                <span asp-validation-for="Tenant_ID" class="form-error"></span>
+            </div>
+
+            <div class="form-group form-group-full">
+                <label asp-for="Title" class="form-label"></label>
+                <input asp-for="Title" class="form-control-custom" />
+                <span asp-validation-for="Title" class="form-error"></span>
+            </div>
+
+            <div class="form-group form-group-full">
+                <label asp-for="Description" class="form-label"></label>
+                <textarea asp-for="Description" class="form-control-custom" rows="4"></textarea>
+                <span asp-validation-for="Description" class="form-error"></span>
+            </div>
+
+            <div class="form-group form-group-full">
+                <label class="form-label">Attachment (optional)</label>
+                <input type="file" name="attachment" class="form-control-custom" accept="image/*,.pdf" />
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <a asp-action="Index" class="btn btn-outline-secondary btn-sm">Cancel</a>
+            <button type="submit" class="btn btn-primary btn-sm">
+                <i class="bi bi-check-lg"></i> Submit Request
+            </button>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

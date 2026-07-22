@@ -6,6 +6,8 @@ var builder = WebApplication.CreateBuilder(args);
 // Add MVC
 builder.Services.AddControllersWithViews();
 
+//builder.Services.AddScoped<CasaPuritaRMS.Services.NotificationService>();
+
 // Add EF Core DbContext
 builder.Services.AddDbContext<AppDbContext>(options =>   // ← changed here
     options.UseSqlServer(

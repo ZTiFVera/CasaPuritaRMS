@@ -42,7 +42,7 @@ html, body {
     padding: var(--space-lg);
 }
 
-/* ================= SIDEBAR (fixed, no expander) ================= */
+/* ================= SIDEBAR ================= */
 .sidebar {
     width: 220px;
     min-height: 100vh;
@@ -165,7 +165,7 @@ html, body {
     border: 1px solid var(--border-color);
     border-radius: 10px;
     padding: 0;
-    overflow: hidden;
+    overflow: visible;
 }
 
 .card-panel-header {
@@ -182,7 +182,7 @@ html, body {
         font-size: 15px;
     }
 
-/* ================= TABLE (fits within panel, no overflow) ================= */
+/* ================= TABLE ================= */
 .table {
     margin-bottom: 0;
     width: 100%;
@@ -339,6 +339,7 @@ html, body {
     border-radius: 8px;
     font-size: 13px;
 }
+
 /* ================= DETAILS VIEW ================= */
 .detail-card {
     max-width: 640px;
@@ -415,6 +416,16 @@ html, body {
     color: var(--text-dark);
 }
 
+    .detail-value a {
+        color: var(--navy);
+        text-decoration: none;
+        font-weight: 600;
+    }
+
+        .detail-value a:hover {
+            text-decoration: underline;
+        }
+
 .detail-actions {
     display: flex;
     justify-content: flex-end;
@@ -460,7 +471,6 @@ html, body {
     color: var(--text-muted);
     margin-bottom: var(--space-md);
 }
-
 .form-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -521,6 +531,7 @@ html, body {
     border-top: 1px solid var(--border-color);
     margin-top: var(--space-lg);
 }
+
 /* ================= DELETE CONFIRMATION ================= */
 .delete-card {
     max-width: 480px;
@@ -609,7 +620,8 @@ html, body {
         border-color: #a5301f;
         color: #fff;
     }
-/* ================= DELETE PREVIEW VARIANTS (icon instead of initials) ================= */
+
+/* ================= VARIANTS ================= */
 .delete-avatar-icon {
     font-size: 18px;
 }
@@ -618,11 +630,11 @@ html, body {
     margin-left: auto;
     align-self: flex-start;
 }
-/* ================= DETAIL AVATAR ICON VARIANT ================= */
+
 .detail-avatar-icon {
     font-size: 20px;
 }
-/* ================= FORM CARD SIZE VARIANT ================= */
+
 .form-card-sm {
     max-width: 520px;
 }
@@ -647,4 +659,495 @@ html, body {
     color: var(--text-dark);
     font-weight: 500;
     cursor: pointer;
+}
+
+/* ================= TEXTAREA ================= */
+textarea.form-control-custom {
+    resize: vertical;
+    min-height: 90px;
+    font-family: inherit;
+    line-height: 1.5;
+}
+
+/* ================= FILE INPUT ================= */
+input[type="file"].form-control-custom {
+    padding: 8px 12px;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+    input[type="file"].form-control-custom::file-selector-button {
+        border: 1px solid var(--border-color);
+        border-radius: 6px;
+        background: #f8f9fb;
+        color: var(--text-dark);
+        padding: 4px 12px;
+        margin-right: 12px;
+        font-size: 12px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background 0.15s ease;
+    }
+
+        input[type="file"].form-control-custom::file-selector-button:hover {
+            background: #eef1f6;
+        }
+
+/* ================= OVERDUE ROW HIGHLIGHT ================= */
+.row-overdue {
+    background: #fdecea;
+}
+
+    .row-overdue:hover {
+        background: #fbdcd8 !important;
+    }
+
+/* ================= SMALL HELPER TEXT ================= */
+.form-group .text-muted {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 2px;
+}
+
+/* ================= CLICKABLE ROWS ================= */
+.clickable-row {
+    cursor: pointer;
+}
+
+    .clickable-row:hover {
+        background: #f0f4fa;
+    }
+
+/* ================= RENT SUMMARY CARDS ================= */
+.rent-summary-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-md);
+    margin-bottom: var(--space-lg);
+}
+
+.summary-card {
+    background: #fff;
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    padding: var(--space-lg);
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.summary-icon {
+    font-size: 18px;
+    color: var(--text-muted);
+    margin-bottom: var(--space-sm);
+}
+
+.summary-label {
+    font-size: 12px;
+    color: var(--text-muted);
+    font-weight: 600;
+}
+
+.summary-value {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text-dark);
+}
+
+.text-green {
+    color: #1a7f4b !important;
+}
+
+.text-red {
+    color: #c0392b !important;
+}
+
+/* ================= COLLECTION PROGRESS BAR ================= */
+.collection-bar-wrap {
+    padding: var(--space-md) var(--space-lg) var(--space-sm);
+}
+
+.collection-head {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+}
+
+.collection-bar {
+    display: flex;
+    height: 8px;
+    border-radius: 6px;
+    overflow: hidden;
+    background: #eef0f3;
+}
+
+.collection-seg {
+    height: 100%;
+}
+
+.seg-paid {
+    background: #1a7f4b;
+}
+
+.seg-overdue {
+    background: #c0392b;
+}
+
+.collection-legend {
+    display: flex;
+    gap: var(--space-lg);
+    margin-top: var(--space-sm);
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+    .collection-legend .dot {
+        display: inline-block;
+        width: 9px;
+        height: 9px;
+        border-radius: 50%;
+        margin-right: 5px;
+    }
+
+.dot-paid {
+    background: #1a7f4b;
+}
+
+.dot-pending {
+    background: #b0b5bd;
+}
+
+.dot-overdue {
+    background: #c0392b;
+}
+
+/* ================= COLUMN HEADER FILTER ================= */
+.th-filter {
+    cursor: pointer;
+    margin-left: 4px;
+    color: #b0b5bd;
+}
+
+    .th-filter:hover {
+        color: var(--navy);
+    }
+
+/* ================= FILTER POPOVER ================= */
+.filter-pop {
+    display: none;
+    position: absolute;
+    z-index: 1050;
+    width: 260px;
+    background: #fff;
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    box-shadow: 0 6px 24px rgba(0,0,0,0.12);
+    padding: var(--space-md);
+}
+
+    .filter-pop.show {
+        display: block;
+    }
+
+.filter-pop-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: var(--space-md);
+}
+
+.filter-pop-close {
+    border: none;
+    background: none;
+    font-size: 18px;
+    color: var(--text-muted);
+    cursor: pointer;
+    line-height: 1;
+}
+
+.filter-pop-sub {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-muted);
+    margin: var(--space-md) 0 var(--space-sm);
+    padding-top: var(--space-md);
+    border-top: 1px solid var(--border-color);
+}
+
+.filter-radio {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    font-size: 13px;
+    color: var(--text-dark);
+    margin: 6px 0;
+    cursor: pointer;
+}
+
+.filter-pop-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--space-sm);
+    margin-top: var(--space-md);
+}
+
+/* ================= ROW 3-DOT MENU ================= */
+.row-menu {
+    position: relative;
+    display: inline-block;
+}
+
+.menu-dots {
+    border: 1px solid var(--border-color);
+    background: #fff;
+    border-radius: 6px;
+    padding: 4px 8px;
+    cursor: pointer;
+    color: var(--text-muted);
+}
+
+    .menu-dots:hover {
+        border-color: var(--navy);
+        color: var(--navy);
+    }
+
+.menu-dropdown {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 110%;
+    z-index: 1040;
+    min-width: 190px;
+    background: #fff;
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    box-shadow: 0 6px 24px rgba(0,0,0,0.12);
+    padding: 6px;
+    text-align: left;
+}
+
+    .menu-dropdown.show {
+        display: block;
+    }
+
+.menu-item {
+    display: block;
+    width: 100%;
+    text-align: left;
+    background: none;
+    border: none;
+    padding: 8px 12px;
+    font-size: 13px;
+    color: var(--text-dark);
+    border-radius: 6px;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+    .menu-item:hover {
+        background: #f0f4fa;
+        color: var(--navy);
+    }
+
+.menu-danger {
+    color: #c0392b;
+}
+
+    .menu-danger:hover {
+        background: #fdecea;
+        color: #c0392b;
+    }
+
+/* ================= PAYMENT MODAL SUMMARY ================= */
+.pay-summary {
+    margin-bottom: var(--space-lg);
+}
+
+.pay-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin: 0 0 4px;
+}
+
+.pay-sub {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin: 0 0 var(--space-md);
+}
+
+.pay-line {
+    font-size: 13px;
+    color: var(--text-dark);
+    margin: 3px 0;
+}
+
+.pay-line-red {
+    color: #c0392b;
+    font-weight: 600;
+}
+
+.pay-balance {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    background: #fdecea;
+    color: #c0392b;
+    border-radius: 8px;
+    padding: 12px var(--space-md);
+    font-size: 14px;
+    margin: var(--space-md) 0 0;
+}
+
+/* ================= MODAL POLISH ================= */
+.modal-content {
+    border: none;
+    border-radius: 12px;
+}
+
+.modal-header {
+    border-bottom: 1px solid var(--border-color);
+    padding: var(--space-md) var(--space-lg);
+}
+
+    .modal-header .modal-title {
+        font-size: 16px;
+        font-weight: 700;
+        color: var(--text-dark);
+    }
+
+.modal-body {
+    padding: var(--space-lg);
+}
+
+.modal-footer {
+    border-top: 1px solid var(--border-color);
+    padding: var(--space-md) var(--space-lg);
+}
+/* ================= TENANT SUMMARY CARDS ================= */
+.tenant-summary-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-md);
+    margin-bottom: var(--space-lg);
+}
+
+/* ================= RENTER CELL (avatar + name) ================= */
+.renter-cell {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+.renter-avatar {
+    width: 30px;
+    height: 30px;
+    min-width: 30px;
+    border-radius: 50%;
+    background: var(--navy);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+/* ================= TENANT PROFILE ================= */
+.profile-header-card {
+    background: #fff;
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    padding: var(--space-lg);
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    margin-bottom: var(--space-lg);
+}
+
+.profile-header-info {
+    flex: 1;
+}
+
+    .profile-header-info h5 {
+        margin: 0 0 4px;
+        font-size: 18px;
+        font-weight: 700;
+        color: var(--text-dark);
+        display: flex;
+        align-items: center;
+        gap: var(--space-sm);
+    }
+
+    .profile-header-info p {
+        margin: 0;
+        font-size: 13px;
+        color: var(--text-muted);
+    }
+
+.profile-header-actions {
+    display: flex;
+    gap: var(--space-sm);
+}
+
+.profile-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-lg);
+}
+
+.profile-card {
+    background: #fff;
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    padding: var(--space-lg);
+}
+
+.profile-card-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: var(--space-md);
+    border-bottom: 1px solid var(--border-color);
+    margin-bottom: var(--space-md);
+}
+
+    .profile-card-head h6 {
+        margin: 0;
+        font-size: 14px;
+        font-weight: 700;
+        color: var(--text-dark);
+    }
+
+.profile-rows {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+}
+
+.profile-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    padding: 4px 0;
+}
+
+.profile-key {
+    color: var(--text-muted);
+    font-weight: 600;
+}
+
+.profile-val {
+    color: var(--text-dark);
+    text-align: right;
+}
+
+.profile-back {
+    margin-top: var(--space-lg);
 }

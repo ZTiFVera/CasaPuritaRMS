@@ -1,0 +1,89 @@
+@model IEnumerable<CasaPuritaRMS.Models.MaintenanceRequest>
+
+@{
+    ViewData["Title"] = "Maintenance Requests";
+}
+
+<div class="card-panel">
+
+    <div class="card-panel-header">
+        <h6>Maintenance Requests</h6>
+        <a asp-action="Create" class="btn btn-sm btn-primary">
+            <i class="bi bi-plus-lg"></i> New Request
+        </a>
+    </div>
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success py-2 mx-4 mt-3">@TempData["Success"]</div>
+    }
+
+    <table class="table align-middle">
+        <thead>
+            <tr>
+                <th style="width:18%">Tenant</th>
+                <th style="width:24%">Title</th>
+                <th style="width:16%">Date Submitted</th>
+                <th style="width:14%">Status</th>
+                <th style="width:12%">Attachment</th>
+                <th style="width:16%" class="text-end">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (!Model.Any())
+            {
+                <tr>
+                    <td colspan="6" class="text-center text-muted py-5">
+                        <i class="bi bi-tools fs-3 d-block mb-2"></i>
+                        No maintenance requests yet.
+                    </td>
+                </tr>
+            }
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Tenant?.First_Name @item.Tenant?.Last_Name</td>
+                    <td>@item.Title</td>
+                    <td>@item.Date_Submitted.ToString("MMM dd, yyyy")</td>
+                    <td>
+                        @switch (item.Status)
+                        {
+                            case "Resolved":
+                                <span class="badge-available">Resolved</span>
+                                break;
+                            case "In Progress":
+                                <span class="badge-partial">In Progress</span>
+                                break;
+                            default:
+                                <span class="badge-occupied">Open</span>
+                                break;
+                        }
+                    </td>
+                    <td>
+                        @if (!string.IsNullOrEmpty(item.Attachment_Path))
+                        {
+                            <span class="badge-yes">Yes</span>
+                        }
+                        else
+                        {
+                            <span class="badge-no">None</span>
+                        }
+                    </td>
+                    <td class="text-end">
+                        <div class="btn-group btn-group-sm" role="group">
+                            <a asp-action="Edit" asp-route-id="@item.Request_ID" class="btn btn-outline-secondary" title="Update">
+                                <i class="bi bi-pencil"></i>
+                            </a>
+                            <a asp-action="Details" asp-route-id="@item.Request_ID" class="btn btn-outline-secondary" title="View">
+                                <i class="bi bi-eye"></i>
+                            </a>
+                            <a asp-action="Delete" asp-route-id="@item.Request_ID" class="btn btn-outline-danger" title="Delete">
+                                <i class="bi bi-trash"></i>
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
